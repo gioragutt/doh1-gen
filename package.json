@@ -1,0 +1,21 @@
+{
+  "name": "react-zmrl3d",
+  "description": "",
+  "homepage": "https://stackblitz.com/edit/react-zmrl3d",
+  "dependencies": {
+    "react": "15.6.1",
+    "react-dom": "15.6.1",
+    "react-scripts": "1.0.10",
+    "bootstrap": "3.3.7",
+    "react-bootstrap": "0.31.3",
+    "react-copy-to-clipboard": "5.0.0"
+  },
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
