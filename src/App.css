@@ -1,3 +1,8 @@
+.app-container {
+  max-width: 600px;
+  margin: auto;
+}
+
 .app-container .title {
   text-align: center;
 }

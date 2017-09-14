@@ -1,7 +1,7 @@
 {
-  "name": "react-zmrl3d",
-  "description": "",
-  "homepage": "https://stackblitz.com/edit/react-zmrl3d",
+  "name": "doh1-gen",
+  "description": "Generate Doh1 in the mornings",
+  "homepage": "https://doh1-gen.herokuapp.com",
   "dependencies": {
     "react": "15.6.1",
     "react-dom": "15.6.1",
