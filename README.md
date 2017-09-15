@@ -1,6 +1,4 @@
-# react-zmrl3d
-
-[Edit this project on StackBlitz](https://stackblitz.com/edit/react-zmrl3d)
+# Doh1 Generator
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
