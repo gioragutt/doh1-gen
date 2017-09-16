@@ -6,27 +6,33 @@ import * as platform from './platform';
 
 const report1Output = (soldiers) => soldiers.map(s => `*${s.name.trim()}:* ${s.attendence}`).join('\n');
 
-const decideOutput = (isMobile, soldiers, disableCopy, buttonStyle) => {
-  if (isMobile) {
-    return (<FormGroup controlId="formControlsTextarea">
-        <FormControl
-          componentClass="textarea"
-          placeholder="העתק דוח1"
-          value={report1Output(soldiers)}
-          onClick={e => e.target.select()}
-        />
-      </FormGroup>); 
-  }
-  return (<CopyToClipboard text={report1Output(soldiers)}
-        onCopy={() => console.log('copied')}>
-        <Button block disabled={disableCopy} bsStyle={buttonStyle}>העתק דוח1</Button>
-      </CopyToClipboard>) 
-}
+const MobileOutput = ({soldiers}) => (
+  <FormGroup controlId="formControlsTextarea">
+    <FormControl
+      componentClass="textarea"
+      placeholder="העתק דוח1"
+      value={report1Output(soldiers)}
+      onClick={e => e.target.select()}
+    />
+  </FormGroup>
+);
 
-const AttendenceOutput = ({soldiers}) => {
+const DesktopOutput = ({soldiers}) => {
   const disableCopy = soldiers.length === 0;
   const buttonStyle = disableCopy ? '' : 'primary';
-  return decideOutput(platform.isMobile(), soldiers, disableCopy, buttonStyle);
+
+  return (
+    <CopyToClipboard text={report1Output(soldiers)}
+      onCopy={() => console.log('copied')}>
+      <Button block disabled={disableCopy} bsStyle={buttonStyle}>העתק דוח1</Button>
+    </CopyToClipboard>
+  )
 };
+
+const AttendenceOutput = ({soldiers}) => (
+  platform.isMobile() 
+  ? <MobileOutput soldiers={soldiers} />
+  : <DesktopOutput soldiers={soldiers} />
+);
 
 export default AttendenceOutput;
