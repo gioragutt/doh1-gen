@@ -19,7 +19,7 @@ const MobileOutput = ({soldiers}) => (
 
 const DesktopOutput = ({soldiers}) => {
   const disableCopy = soldiers.length === 0;
-  const buttonStyle = disableCopy ? '' : 'primary';
+  const buttonStyle = disableCopy ? 'default' : 'primary';
 
   return (
     <CopyToClipboard text={report1Output(soldiers)}
