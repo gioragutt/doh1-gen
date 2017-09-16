@@ -7,8 +7,6 @@ import AttendenceOutput from './AttendenceOutput';
 
 import SoldierStorage from './storage';
 
-import { FieldGroup, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
-
 export default class App extends Component {
   constructor() {
     super();

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, FormGroup, InputGroup, FormControl, ControlLabel, HelpBlock } from 'react-bootstrap';
+import { Button, FormGroup, InputGroup, FormControl } from 'react-bootstrap';
 import './SoldierNameInput.css';
 
 export default class SoldierNameInput extends Component {

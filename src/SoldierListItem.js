@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Col, Button, FieldGroup, FormGroup, FormControl, ControlLabel, InputGroup } from 'react-bootstrap';
+import { Form, Col, Button, FormGroup, FormControl, ControlLabel, InputGroup } from 'react-bootstrap';
 
 import './SoldierListItem.css';
 

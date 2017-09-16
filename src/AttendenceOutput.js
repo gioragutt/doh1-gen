@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-import { Button, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
+import { Button, FormGroup, FormControl } from 'react-bootstrap';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import * as platform from './platform';
 
