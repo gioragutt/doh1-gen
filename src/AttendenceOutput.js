@@ -1,7 +1,9 @@
 import React from 'react';
-
-import { Button, FormGroup, FormControl } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 import CopyToClipboard from 'react-copy-to-clipboard';
+
+import { ATTENDENCE_VALUES } from './SoldierListItem';
+import { Button, FormGroup, FormControl } from 'react-bootstrap';
 import * as platform from './platform';
 
 const report1Output = (soldiers) => 
@@ -43,5 +45,13 @@ const AttendenceOutput = ({soldiers}) => (
   ? <MobileOutput soldiers={soldiers} />
   : <DesktopOutput soldiers={soldiers} />
 );
+
+AttendenceOutput.propTypes = {
+  soldiers: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      attendence: PropTypes.oneOf(ATTENDENCE_VALUES).isRequired
+  })).isRequired
+}
 
 export default AttendenceOutput;

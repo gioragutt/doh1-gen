@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 import { Button, FormGroup, InputGroup, FormControl } from 'react-bootstrap';
+import PropTypes from 'prop-types';
+
 import './SoldierNameInput.css';
 
 export default class SoldierNameInput extends Component {
+  static propTypes = {
+    onAdd: PropTypes.func.isRequired
+  };
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -32,7 +38,7 @@ export default class SoldierNameInput extends Component {
       <form>
         <FormGroup
           controlId="formBasicText"
-          validationState={() => this.getValidationState()}
+          validationState={this.getValidationState()}
         >
           <InputGroup>
             <FormControl

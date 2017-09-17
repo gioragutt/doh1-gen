@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Col, Button, FormGroup, FormControl, ControlLabel, InputGroup } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 import './SoldierListItem.css';
 
@@ -18,7 +19,13 @@ export const ATTENDENCE_VALUES = [
 ];
 
 export default class SoldierListItem extends Component {
-  
+  static propTypes = {
+    attendence: PropTypes.string,
+    name: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired
+  };
+
   constructor(props) {
     super(props);
   
@@ -32,9 +39,7 @@ export default class SoldierListItem extends Component {
   }
 
   onChange(attendence) {
-    if (this.props.onChange) {
-      this.props.onChange(attendence);
-    }
+    this.props.onChange(attendence);
   }
 
   handleSelection(e) {
@@ -44,9 +49,7 @@ export default class SoldierListItem extends Component {
   }
 
   handleDelete() {
-    if (this.props.onDelete) {
-      this.props.onDelete();
-    }
+    this.props.onDelete();
   }
 
   render() {
@@ -56,7 +59,6 @@ export default class SoldierListItem extends Component {
         <FormGroup controlId="formControlsSelect">
           <Col xs={9} sm={10}>
             <InputGroup>
-              {/*<InputGroup.Addon>{name}</InputGroup.Addon>*/}
               <FormControl onChange={(e) => this.handleSelection(e)} componentClass="select" placeholder="select" value={this.state.attendence}>
                 {
                   ATTENDENCE_VALUES.map((val, i) => (
