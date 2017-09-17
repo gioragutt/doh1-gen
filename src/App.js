@@ -20,8 +20,12 @@ export default class App extends Component {
     SoldierStorage.save(soldiers);
   }
 
+  _soldierNameAlreadyExists(name) {
+    return this.state.soldiers.filter(s => s.name === name).length > 0;
+  }
+
   addSoldier(name) {
-    if (this.state.soldiers.filter(s => s.name === name).length > 0) {
+    if (this._soldierNameAlreadyExists(name)) {
       return;
     }
 
@@ -44,6 +48,12 @@ export default class App extends Component {
 
   setSoldierAttendence(i, attendence) {
     this.changeSoldier(i, {attendence});
+  }
+
+  setSoldierName(i, name) {
+    if (!this._soldierNameAlreadyExists(name)) {
+      this.changeSoldier(i, {name})
+    }
   }
 
   deleteSoldier(i) {
@@ -73,7 +83,10 @@ export default class App extends Component {
     return (
       <div className="app-container" dir="rtl">
         <h1 className="title">מחולל דוח1</h1>
-        <SoldierNameInput onSubmit={(name) => this.addSoldier(name)}/>
+        <SoldierNameInput
+          onSubmit={(name) => this.addSoldier(name)}
+          submitButtonText={'הוסף חייל'}
+        />
         <ul className="soldier-list">
           {this.renderSoldiersList()}
         </ul>

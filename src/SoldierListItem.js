@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Form, Col, Button, FormGroup, FormControl, ControlLabel, InputGroup } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
+import SoldierNameInput from './SoldierNameInput';
 import './SoldierListItem.css';
 
 export const ATTENDENCE_VALUES = [
@@ -23,6 +24,7 @@ export default class SoldierListItem extends Component {
     attendence: PropTypes.string,
     name: PropTypes.string.isRequired,
     onAttendenceChange: PropTypes.func.isRequired,
+    onNameChange: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired
   };
 
@@ -30,7 +32,8 @@ export default class SoldierListItem extends Component {
     super(props);
   
     this.state = {
-      attendence: props.attendence || ATTENDENCE_VALUES[0]
+      attendence: props.attendence || ATTENDENCE_VALUES[0],
+      isEditing: false
     };
   }
 
@@ -42,14 +45,36 @@ export default class SoldierListItem extends Component {
     this.props.onAttendenceChange(attendence);
   }
 
-  handleSelection(e) {
+  handleAttendenceSelectionChanged(e) {
     const attendence = e.target.value;
     this.setState({attendence});
     this._onAttendenceChange(attendence);
   }
 
+  _onNameChange(name) {
+    this.props.onNameChange(name);
+  }
+
   handleDelete() {
     this.props.onDelete();
+  }
+
+  _setEditingMode(isEditing) {
+    console.log('Setting edit to', isEditing);
+    this.setState({isEditing})
+  }
+
+  startEditingName() {
+    this._setEditingMode(true);
+  }
+
+  cancelNameChange() {
+    this._setEditingMode(false);
+  }
+
+  submitNameChange(name) {
+    this.cancelNameChange();
+    this._onNameChange(name);
   }
 
   renderAttendenceOptions(name) {
@@ -58,32 +83,76 @@ export default class SoldierListItem extends Component {
     ))
   }
 
+  renderDeleteButton() {
+    return (
+      <InputGroup.Button>
+        <Button
+          bsStyle="danger"
+          onClick={() => this.handleDelete()}
+        >
+          מחק
+        </Button>
+      </InputGroup.Button>
+    );
+  }
+
+  renderEditButton() {
+    return (
+      <InputGroup.Button>
+        <Button
+          bsStyle="info"
+          onClick={() => this.startEditingName()}
+        >
+          ערוך שם
+        </Button>
+      </InputGroup.Button>
+    );
+  }
+
   renderAttendenceSettings() {
     const { name } = this.props;
     return (
-      <FormGroup controlId="formControlsSelect">
-        <Col xs={9} sm={10}>
-          <InputGroup>
-            <FormControl onChange={(e) => this.handleSelection(e)} componentClass="select" placeholder="select" value={this.state.attendence}>
-              {this.renderAttendenceOptions(name)}
-            </FormControl>
-            <InputGroup.Button>
-              <Button onClick={() => this.handleDelete()}>X</Button>
-            </InputGroup.Button>
-          </InputGroup>
-        </Col>
-        <Col componentClass={ControlLabel} xs={3} sm={2}>
-          {name}
-        </Col>
-      </FormGroup>
+      <Form horizontal>
+        <FormGroup controlId="formControlsSelect">
+          <Col xs={9} sm={10}>
+            <InputGroup>
+              <FormControl
+                onChange={(e) => this.handleAttendenceSelectionChanged(e)}
+                componentClass="select"
+                placeholder="select"
+                value={this.state.attendence}
+              >
+                {this.renderAttendenceOptions(name)}
+              </FormControl>
+              {this.renderEditButton()}
+              {this.renderDeleteButton()}
+            </InputGroup>
+          </Col>
+          <Col componentClass={ControlLabel} xs={3} sm={2}>
+            {name}
+          </Col>
+        </FormGroup>
+      </Form>
+    );
+  }
+
+  renderNameEdit() {
+    const originalName = this.props.name;
+    return (
+      <SoldierNameInput
+        initialValue={originalName}
+        onSubmit={(name) => this.submitNameChange(name)}
+        submitButtonText={'שנה שם'}
+        cancelButtonText={'בטל'}
+        onCancel={() => this.cancelNameChange()}
+      />
     )
   }
 
   render() {
-    return (
-      <Form horizontal>
-        {this.renderAttendenceSettings()}
-      </Form>
-    )
+    const { isEditing } = this.state;
+    return isEditing
+      ? this.renderNameEdit()
+      : this.renderAttendenceSettings();
   }
 }
