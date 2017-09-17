@@ -50,7 +50,7 @@ AttendenceOutput.propTypes = {
   soldiers: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
-      attendence: PropTypes.oneOf(ATTENDENCE_VALUES).isRequired
+      attendence: PropTypes.oneOf(ATTENDENCE_VALUES)
   })).isRequired
 }
 
