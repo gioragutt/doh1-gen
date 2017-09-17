@@ -73,7 +73,7 @@ export default class App extends Component {
     return (
       <div className="app-container" dir="rtl">
         <h1 className="title">מחולל דוח1</h1>
-        <SoldierNameInput onAdd={(name) => this.addSoldier(name)}/>
+        <SoldierNameInput onSubmit={(name) => this.addSoldier(name)}/>
         <ul className="soldier-list">
           {this.renderSoldiersList()}
         </ul>

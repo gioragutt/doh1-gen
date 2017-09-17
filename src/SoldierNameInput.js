@@ -6,7 +6,7 @@ import './SoldierNameInput.css';
 
 export default class SoldierNameInput extends Component {
   static propTypes = {
-    onAdd: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired
   };
   
   constructor(props) {
@@ -37,7 +37,7 @@ export default class SoldierNameInput extends Component {
   _validateInputAndRaiseAddEvent() {
     const { value } = this.state;
     if (!!value) {
-      this.props.onAdd(value.trim());
+      this.props.onSubmit(value.trim());
       this.setState({ value: '' })
     }
   }
