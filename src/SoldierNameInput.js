@@ -11,19 +11,19 @@ export default class SoldierNameInput extends Component {
   }
 
   getValidationState() {
-    const length = this.state.value.length;
-    return length === 0 ? 'error' : 'success';
+    return this.state.value.length === 0 ? 'error' : 'success';
   }
 
   handleChange(e) {
-    this.setState({ value: e.target.value.trim() });
+    const { value } = e.target; 
+    this.setState({ value });
   }
 
   handleClick() {
     const { value } = this.state;
     if (!!value) {
-      this.props.onAdd(value);
-      this.setState({value: ''})
+      this.props.onAdd(value.trim());
+      this.setState({ value: '' })
     }
   }
 
@@ -32,7 +32,7 @@ export default class SoldierNameInput extends Component {
       <form>
         <FormGroup
           controlId="formBasicText"
-          validationState={this.getValidationState()}
+          validationState={() => this.getValidationState()}
         >
           <InputGroup>
             <FormControl
