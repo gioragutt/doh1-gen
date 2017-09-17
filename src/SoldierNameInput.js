@@ -4,20 +4,43 @@ import PropTypes from 'prop-types';
 
 import './SoldierNameInput.css';
 
+const CancelButton = ({cancelButtonText, onCancel}) => (
+  <InputGroup.Button>
+    <Button
+      onClick={() => onCancel()}
+    >
+      {cancelButtonText}
+    </Button>
+  </InputGroup.Button>
+);
+
+CancelButton.propTypes = {
+  cancelButtonText: PropTypes.string.isRequired,
+  onCancel: PropTypes.func.isRequired
+};
+
 export default class SoldierNameInput extends Component {
   static propTypes = {
-    onSubmit: PropTypes.func.isRequired
+    initialValue: PropTypes.string,
+    onSubmit: PropTypes.func.isRequired,
+    submitButtonText: PropTypes.string.isRequired,
+    onCancel: PropTypes.func,
+    cancelButtonText: PropTypes.string
   };
   
   constructor(props) {
     super(props);
     this.state = {
-      value: ''
+      value: props.initialValue || ''
     }
   }
 
+  _isInputValueValid() {
+    return this.state.value.length > 0;
+  }
+
   getValidationState() {
-    return this.state.value.length === 0 ? 'error' : 'success';
+    return this._isInputValueValid() ? 'success' : 'error';
   }
 
   handleChange(e) {
@@ -42,6 +65,34 @@ export default class SoldierNameInput extends Component {
     }
   }
 
+  renderSubmitButton() {
+    const butttonStyle = this._isInputValueValid() ? 'primary' : 'default';
+    return (
+      <InputGroup.Button>
+        <Button
+          bsStyle={butttonStyle}
+          onClick={() => this.handleClick()}
+        >
+          {this.props.submitButtonText}
+        </Button>
+      </InputGroup.Button>
+    );
+  }
+
+  renderCancelButton() {
+    if (!this.props.cancelButtonText) {
+      return;
+    }
+
+    const { onCancel, cancelButtonText } = this.props;
+    return (
+      <CancelButton
+        onCancel={onCancel}
+        cancelButtonText={cancelButtonText} 
+      />
+    );
+  }
+
   render() {
     return (
       <form onSubmit={(e) => this.handleSubmit(e)}>
@@ -56,9 +107,8 @@ export default class SoldierNameInput extends Component {
               placeholder="שם החייל"
               onChange={(e) => this.handleChange(e)}
             />
-            <InputGroup.Button>
-              <Button onClick={() => this.handleClick()}>הוסף חייל</Button>
-            </InputGroup.Button>
+            {this.renderSubmitButton()}
+            {this.renderCancelButton()}
             <FormControl.Feedback />
           </InputGroup>
         </FormGroup>
