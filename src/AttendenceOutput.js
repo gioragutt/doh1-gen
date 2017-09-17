@@ -17,6 +17,7 @@ const MobileOutput = ({soldiers}) => (
       componentClass="textarea"
       placeholder="העתק דוח1"
       value={report1Output(soldiers)}
+      readOnly={true}
       onClick={e => e.target.select()}
     />
   </FormGroup>
