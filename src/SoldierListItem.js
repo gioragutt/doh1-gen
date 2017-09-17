@@ -22,7 +22,7 @@ export default class SoldierListItem extends Component {
   static propTypes = {
     attendence: PropTypes.string,
     name: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired,
+    onAttendenceChange: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired
   };
 
@@ -35,46 +35,54 @@ export default class SoldierListItem extends Component {
   }
 
   componentWillMount() {
-    this.onChange(this.state.attendence);
+    this._onAttendenceChange(this.state.attendence);
   }
 
-  onChange(attendence) {
-    this.props.onChange(attendence);
+  _onAttendenceChange(attendence) {
+    this.props.onAttendenceChange(attendence);
   }
 
   handleSelection(e) {
     const attendence = e.target.value;
     this.setState({attendence});
-    this.onChange(attendence);
+    this._onAttendenceChange(attendence);
   }
 
   handleDelete() {
     this.props.onDelete();
   }
 
-  render() {
+  renderAttendenceOptions(name) {
+    return ATTENDENCE_VALUES.map((val, i) => (
+      <option key={`${name}-attendence-${val}`} value={val}>{val}</option>
+    ))
+  }
+
+  renderAttendenceSettings() {
     const { name } = this.props;
     return (
+      <FormGroup controlId="formControlsSelect">
+        <Col xs={9} sm={10}>
+          <InputGroup>
+            <FormControl onChange={(e) => this.handleSelection(e)} componentClass="select" placeholder="select" value={this.state.attendence}>
+              {this.renderAttendenceOptions(name)}
+            </FormControl>
+            <InputGroup.Button>
+              <Button onClick={() => this.handleDelete()}>X</Button>
+            </InputGroup.Button>
+          </InputGroup>
+        </Col>
+        <Col componentClass={ControlLabel} xs={3} sm={2}>
+          {name}
+        </Col>
+      </FormGroup>
+    )
+  }
+
+  render() {
+    return (
       <Form horizontal>
-        <FormGroup controlId="formControlsSelect">
-          <Col xs={9} sm={10}>
-            <InputGroup>
-              <FormControl onChange={(e) => this.handleSelection(e)} componentClass="select" placeholder="select" value={this.state.attendence}>
-                {
-                  ATTENDENCE_VALUES.map((val, i) => (
-                    <option key={`${name}-attendence-${val}`} value={val}>{val}</option>
-                  ))
-                }
-              </FormControl>
-              <InputGroup.Button>
-                <Button onClick={() => this.handleDelete()}>X</Button>
-              </InputGroup.Button>
-            </InputGroup>
-          </Col>
-          <Col componentClass={ControlLabel} xs={3} sm={2}>
-            {name}
-          </Col>
-        </FormGroup>
+        {this.renderAttendenceSettings()}
       </Form>
     )
   }
