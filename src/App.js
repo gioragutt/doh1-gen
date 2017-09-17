@@ -53,23 +53,29 @@ export default class App extends Component {
     this.saveSoldiers(soldiers);
   }
 
+  renderSoldiersList() {
+    return this.state.soldiers.map((soldier, i) => (
+      <li
+        className="soldier-list-item"
+        key={`${soldier.name}-soldier-list-item-${i}`}
+      >
+        <SoldierListItem
+          {...soldier}
+          onAttendenceChange={attendence => this.setSoldierAttendence(i, attendence)}
+          onDelete={() => this.deleteSoldier(i)}
+          onNameChange={name => this.setSoldierName(i, name)}
+        />
+      </li> 
+    ))
+  }
+  
   render() {
     return (
       <div className="app-container" dir="rtl">
         <h1 className="title">מחולל דוח1</h1>
         <SoldierNameInput onAdd={(name) => this.addSoldier(name)}/>
         <ul className="soldier-list">
-        {
-          this.state.soldiers.map((soldier, i) => (
-           <li className="soldier-list-item">
-             <SoldierListItem
-              {...soldier}
-              onChange={e => this.setSoldierAttendence(i, e)}
-              onDelete={() => this.deleteSoldier(i)}
-             />
-           </li> 
-          ))
-        }
+          {this.renderSoldiersList()}
         </ul>
         <AttendenceOutput soldiers={this.state.soldiers} />
       </div>
