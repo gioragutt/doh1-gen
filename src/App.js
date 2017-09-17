@@ -29,17 +29,21 @@ export default class App extends Component {
     this.saveSoldiers([...this.state.soldiers, newSoldier]);
   }
 
-  setSoldierAttendence(i, attendence) {
+  changeSoldier(i, change) {
     const soldiers = this.state.soldiers.map((soldier, index) => {
       if (i !== index) {
         return soldier;
       }
 
-      console.log(`Changing ${soldier.name} to ${attendence}`);
-      return {...soldier, attendence};
+      console.log(`Changing ${soldier.name} with ${JSON.stringify(change)}`);
+      return {...soldier, ...change};
     });
 
     this.saveSoldiers(soldiers);
+  }
+
+  setSoldierAttendence(i, attendence) {
+    this.changeSoldier(i, {attendence});
   }
 
   deleteSoldier(i) {
