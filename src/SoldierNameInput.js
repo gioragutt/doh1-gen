@@ -26,6 +26,15 @@ export default class SoldierNameInput extends Component {
   }
 
   handleClick() {
+    this._validateInputAndRaiseAddEvent();
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    this._validateInputAndRaiseAddEvent();
+  }
+
+  _validateInputAndRaiseAddEvent() {
     const { value } = this.state;
     if (!!value) {
       this.props.onAdd(value.trim());
@@ -35,7 +44,7 @@ export default class SoldierNameInput extends Component {
 
   render() {
     return (
-      <form>
+      <form onSubmit={(e) => this.handleSubmit(e)}>
         <FormGroup
           controlId="formBasicText"
           validationState={this.getValidationState()}
