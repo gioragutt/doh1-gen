@@ -5,8 +5,8 @@ const save = soldiers => {
 };
 
 const load = () => {
-  const cache = JSON.parse(localStorage.getItem(SOLDIERS_CACHE_TOKEN));
-  return cache || [];
+  const cache = localStorage.getItem(SOLDIERS_CACHE_TOKEN);
+  return cache ? JSON.parse(cache) : [];
 }
 
 export default { load, save }

@@ -2,17 +2,16 @@
   "name": "doh1-gen",
   "description": "Generate Doh1 in the mornings",
   "homepage": "https://doh1-gen.herokuapp.com",
-  "dependencies": {
-    "bootstrap": "3.3.7",
-    "prop-types": "^15.5.10",
-    "react": "15.6.1",
-    "react-bootstrap": "0.31.3",
-    "react-copy-to-clipboard": "5.0.0",
-    "react-dom": "15.6.1",
-    "react-scripts": "1.0.10"
-  },
   "version": "0.1.0",
   "private": true,
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "react": "^16.0.0",
+    "react-bootstrap": "^0.31.3",
+    "react-copy-to-clipboard": "^5.0.0",
+    "react-dom": "^16.0.0",
+    "react-scripts": "1.0.14"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

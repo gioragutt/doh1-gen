@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Form, Col, Button, FormGroup, FormControl, ControlLabel, InputGroup } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-import SoldierNameInput from './SoldierNameInput';
+import SoldierNameInput from '../SoldierNameInput/SoldierNameInput';
 import './SoldierListItem.css';
 
 export const ATTENDENCE_VALUES = [

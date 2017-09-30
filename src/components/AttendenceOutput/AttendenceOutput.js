@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
-import { ATTENDENCE_VALUES } from './SoldierListItem';
+import { ATTENDENCE_VALUES } from '../SoldierListItem/SoldierListItem';
 import { Button, FormGroup, FormControl } from 'react-bootstrap';
-import * as platform from './platform';
+import * as platform from '../../utils/platform';
 
 const report1Output = (soldiers) => 
   soldiers

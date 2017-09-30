@@ -1,0 +1,17 @@
+.app-container {
+  max-width: 600px;
+  margin: auto;
+}
+
+.app-container .title {
+  text-align: center;
+}
+
+.soldier-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.soldier-list-item {
+  padding: 0;
+}
