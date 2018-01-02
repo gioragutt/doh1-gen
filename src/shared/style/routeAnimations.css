@@ -1,0 +1,20 @@
+.route-animation-enter {
+  opacity: 0;
+  z-index: 1;
+}
+
+.route-animation-enter.route-animation-enter-active {
+  z-index: 1;
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.route-animation-exit {
+  opacity: 0;
+}
+
+.route-animation-exit.route-animation-exit-active {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  z-index: 10;
+}

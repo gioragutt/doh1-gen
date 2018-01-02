@@ -1,0 +1,74 @@
+{
+  "presets": [
+    [
+      "es2015",
+      {
+        "modules": false
+      }
+    ],
+    "stage-0",
+    "react"
+  ],
+  "plugins": [
+    ["emotion", ["emotion", { "sourceMap": false, "hoist": true, "autoLabel": true }]],
+    "transform-function-bind",
+    "transform-flow-strip-types",
+    "transform-decorators-legacy",
+    "transform-class-properties",
+    [
+      "transform-imports",
+      {
+        "lodash": {
+          "transform": "lodash/${member}",
+          "preventFullImport": true
+        },
+        "lodash/fp": {
+          "transform": "lodash/fp/${member}",
+          "preventFullImport": true
+        },
+        "XXXredux-form": {
+          "transform": "redux-form/lib/${member}",
+          "preventFullImport": true
+        },
+        "antd": {
+          "transform": "antd/lib/${member}",
+          "preventFullImport": true,
+          "kebabCase": true
+        },
+        "recompose": {
+          "transform": "recompose/${member}",
+          "preventFullImport": true
+        },
+        "rxjs/operator": {
+          "transform": "rxjs/operator/${member}",
+          "preventFullImport": true,
+          "camelCase": true,
+          "skipDefaultConversion": true
+        },
+        "rxjs/observable": {
+          "transform": "rxjs/observable/${member}",
+          "camelCase": true,
+          "preventFullImport": true,
+          "skipDefaultConversion": true
+        }
+      }
+    ]
+  ],
+  "env": {
+    "development": {
+      "presets": [
+      ],
+      "plugins": [
+        ["emotion", { "sourceMap": true, "hoist": false, "autoLabel": true  }],
+        "react-hot-loader/babel"
+      ]
+    },
+    "webpack": {
+      "presets": [
+        [
+          "es2015"
+        ]
+      ]
+    }
+  }
+}
