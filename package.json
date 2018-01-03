@@ -6,7 +6,7 @@
   },
   "privage": true,
   "scripts": {
-    "start": "npm run dev",
+    "start": "npm run prod:start",
     "dev": "cross-env BABEL_ENV=webpack webpack-dev-server",
     "prod": "cross-env BABEL_ENV=webpack NODE_ENV=production webpack --progress",
     "prod:stats": "cross-env BABEL_ENV=webpack NODE_ENV=production webpack --progress --profile --json > webpack-stats.json && webpack-bundle-analyzer webpack-stats.json ../dist",
@@ -52,13 +52,7 @@
     "prettier-eslint-cli": "^4.3.2",
     "style-loader": "^0.18.2",
     "svg-inline-loader": "^0.8.0",
-    "url-loader": "^0.5.9",
-    "webpack": "^3.5.3",
-    "webpack-bundle-analyzer": "^2.9.1",
-    "webpack-bundle-size-analyzer": "^2.7.0",
-    "webpack-cleanup-plugin": "^0.5.1",
-    "webpack-dashboard": "^0.4.0",
-    "webpack-merge": "^4.1.1"
+    "url-loader": "^0.5.9"
   },
   "dependencies": {
     "animated": "^0.2.0",
@@ -114,6 +108,12 @@
     "rxjs": "^5.5.2",
     "validatorjs": "^3.13.5",
     "cross-env": "^5.1.1",
+    "webpack": "^3.5.3",
+    "webpack-bundle-analyzer": "^2.9.1",
+    "webpack-bundle-size-analyzer": "^2.7.0",
+    "webpack-cleanup-plugin": "^0.5.1",
+    "webpack-dashboard": "^0.4.0",
+    "webpack-merge": "^4.1.1",
     "webpack-dev-server": "^2.9.4"
   }
 }
