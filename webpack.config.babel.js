@@ -1,11 +1,11 @@
-import path from 'path'
-import webpack from 'webpack'
-import merge from 'webpack-merge'
-import CleanPlugin from 'clean-webpack-plugin'
-import HtmlWebpackPlugin from 'html-webpack-plugin'
-import DashboardPlugin from 'webpack-dashboard/plugin'
-import ExtractTextPlugin from 'extract-text-webpack-plugin'
-import childProcess from 'child_process'
+const path = require('path')
+const webpack = require('webpack')
+const merge = require('webpack-merge')
+const CleanPlugin = require('clean-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const DashboardPlugin = require('webpack-dashboard/plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const childProcess = require('child_process')
 
 process.env.BABEL_ENV = process.env.NODE_ENV
 
