@@ -9,7 +9,7 @@
     "start": "http-server ./dist",
     "dev": "cross-env BABEL_ENV=webpack webpack-dev-server",
     "prod": "cross-env BABEL_ENV=webpack NODE_ENV=production webpack --progress",
-    "heroku-postbuild": "webpack -p --config ./webpack.prod.config.js --progress",
+    "heroku-postbuild": "webpack -p --progress",
     "prod:stats": "cross-env BABEL_ENV=webpack NODE_ENV=production webpack --progress --profile --json > webpack-stats.json && webpack-bundle-analyzer webpack-stats.json ../dist",
     "prod:start": "cross-env BABEL_ENV=webpack NODE_ENV=production API_BASE_URL=http://localhost:3000/api/v1  webpack --progress && http-server ./dist",
     "lint:watch": "nodemon --watch . --ext js,yml --exec 'npm run lint:fix'",
@@ -18,6 +18,7 @@
   "devDependencies": {
     "babel-core": "^6.25.0",
     "babel-eslint": "^7.2.3",
+    "babel-preset-stage-0": "^6.24.1",
     "babel-loader": "^7.1.1",
     "babel-plugin-emotion": "^8.0.9",
     "babel-plugin-transform-class-properties": "^6.24.1",
@@ -28,7 +29,6 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1",
     "clean-webpack-plugin": "^0.1.16",
     "css-loader": "^0.28.6",
     "directory-named-webpack-plugin": "^2.2.3",
@@ -53,7 +53,15 @@
     "prettier-eslint-cli": "^4.3.2",
     "style-loader": "^0.18.2",
     "svg-inline-loader": "^0.8.0",
-    "url-loader": "^0.5.9"
+    "url-loader": "^0.5.9",
+    "cross-env": "^5.1.1",
+    "webpack": "^3.5.3",
+    "webpack-bundle-analyzer": "^2.9.1",
+    "webpack-bundle-size-analyzer": "^2.7.0",
+    "webpack-cleanup-plugin": "^0.5.1",
+    "webpack-dashboard": "^0.4.0",
+    "webpack-merge": "^4.1.1",
+    "webpack-dev-server": "^2.9.4"
   },
   "dependencies": {
     "animated": "^0.2.0",
@@ -107,14 +115,6 @@
     "redux-toolbelt": "^2.1.3",
     "redux-toolbelt-observable": "^1.0.20",
     "rxjs": "^5.5.2",
-    "validatorjs": "^3.13.5",
-    "cross-env": "^5.1.1",
-    "webpack": "^3.5.3",
-    "webpack-bundle-analyzer": "^2.9.1",
-    "webpack-bundle-size-analyzer": "^2.7.0",
-    "webpack-cleanup-plugin": "^0.5.1",
-    "webpack-dashboard": "^0.4.0",
-    "webpack-merge": "^4.1.1",
-    "webpack-dev-server": "^2.9.4"
+    "validatorjs": "^3.13.5"
   }
 }
