@@ -1,12 +1,12 @@
 {
-  "name": "creative-ai",
+  "name": "doh1-gen",
   "version": "1.0.0",
   "engines": {
     "node": ">=8.0.0"
   },
   "privage": true,
   "scripts": {
-    "start": "webpack-dashboard --minimal -- npm run dev",
+    "start": "npm run dev",
     "dev": "cross-env BABEL_ENV=webpack webpack-dev-server",
     "prod": "cross-env BABEL_ENV=webpack NODE_ENV=production webpack --progress",
     "prod:stats": "cross-env BABEL_ENV=webpack NODE_ENV=production webpack --progress --profile --json > webpack-stats.json && webpack-bundle-analyzer webpack-stats.json ../dist",
