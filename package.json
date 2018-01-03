@@ -6,9 +6,10 @@
   },
   "privage": true,
   "scripts": {
-    "start": "npm run prod:start",
+    "start": "http-server ./dist",
     "dev": "cross-env BABEL_ENV=webpack webpack-dev-server",
     "prod": "cross-env BABEL_ENV=webpack NODE_ENV=production webpack --progress",
+    "heroku-postbuild": "webpack -p --config ./webpack.prod.config.js --progress",
     "prod:stats": "cross-env BABEL_ENV=webpack NODE_ENV=production webpack --progress --profile --json > webpack-stats.json && webpack-bundle-analyzer webpack-stats.json ../dist",
     "prod:start": "cross-env BABEL_ENV=webpack NODE_ENV=production API_BASE_URL=http://localhost:3000/api/v1  webpack --progress && http-server ./dist",
     "lint:watch": "nodemon --watch . --ext js,yml --exec 'npm run lint:fix'",
