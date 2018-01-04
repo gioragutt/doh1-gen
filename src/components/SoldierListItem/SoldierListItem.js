@@ -18,7 +18,8 @@ export const ATTENDENCE_VALUES = [
   'מחלת בן/בת זוג',
   'מחלת ילד',
   'קורס/הכשרה',
-];
+  'הצהרה',
+].sort((a, b) => a.localeCompare(b, 'he'));
 
 export default class SoldierListItem extends Component {
   static propTypes = {
