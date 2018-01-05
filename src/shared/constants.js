@@ -12,4 +12,4 @@ export const ATTENDENCE_VALUES = [
   'מחלת בן/בת זוג',
   'מחלת ילד',
   'קורס/הכשרה',
-]
+].sort((a, b) => a.localeCompare(b, 'he'))
