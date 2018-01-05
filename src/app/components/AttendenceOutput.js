@@ -3,7 +3,7 @@ import CopyToClipboard from 'react-copy-to-clipboard'
 import {Button, FormGroup, FormControl} from 'react-bootstrap'
 import {branch, renderComponent, mapProps, compose} from 'recompose'
 
-import isMobile from '../utils/platform'
+import isMobile from 'shared/utils/platform'
 
 const report1Output = soldiers =>
   soldiers

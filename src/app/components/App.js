@@ -5,7 +5,7 @@ import SoldierNameInput from './SoldierNameInput'
 import SoldierListItem from './SoldierListItem'
 import AttendenceOutput from './AttendenceOutput'
 
-import SoldierStorage from '../utils/storage'
+import SoldierStorage from 'shared/utils/storage'
 
 const Root = styled.div`
   max-width: 660px;
