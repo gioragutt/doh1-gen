@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import styled from 'react-emotion'
+import {connect} from 'react-redux'
 
 import SoldierNameInput from './SoldierNameInput'
 import SoldierListItem from './SoldierListItem'
@@ -25,9 +26,12 @@ const SoldiersListItem = styled.li`
   padding: 0;
 `
 
-export default class App extends Component {
-  state = {
-    soldiers: SoldierStorage.load(),
+class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      soldiers: props.soldiers,
+    }
   }
 
   saveSoldiers(soldiers) {
@@ -105,3 +109,8 @@ export default class App extends Component {
   }
 }
 
+const enhance = connect(
+  ({soldiers}) => ({soldiers})
+)
+
+export default enhance(App)
