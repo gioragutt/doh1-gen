@@ -4,8 +4,7 @@
 // import {Observable} from 'rxjs/Observable'
 // eslint-disable-next-line import/no-unresolved
 // import {empty} from 'rxjs/observable'
-// eslint-disable-next-line import/no-unresolved
-import {take, switchMap} from 'rxjs/operator'
+import {filter, take, switchMap} from 'rxjs/operator'
 // import {api} from 'shared/services'
 // import {
 //   ACTION_ASYNC_FAILURE_SUFFIX,
@@ -15,12 +14,6 @@ import {take, switchMap} from 'rxjs/operator'
 import * as actions from './actions'
 import SoldierStorage from 'shared/utils/storage'
 
-// export const trivialEpics = combineEpics(
-//   ...['signin', 'signup', 'signout'].map(name =>
-//     makeAsyncEpic(actions[name], api[name])
-//   )
-// )
-
 export const init = $action =>
   $action
     .ofType(actions.init.TYPE)
@@ -28,4 +21,12 @@ export const init = $action =>
     ::switchMap(() => {
       console.log('put init code here and issue actions')
       return [actions.setSoldiers(SoldierStorage.load())]
+    })
+
+export const saveSoldiersToStorage = ($action, {getState}) =>
+  $action
+    ::filter(({meta = {}}) => meta.saveToStorage)
+    ::switchMap(() => {
+      SoldierStorage.save(getState().soldiers)
+      return []
     })
