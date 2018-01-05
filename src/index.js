@@ -1,8 +1,36 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
-import App from './app'
+import {I18nextProvider} from 'react-i18next'
+import {AppContainer} from 'react-hot-loader'
+import {Provider} from 'react-redux'
+import App from 'app'
+import {i18n} from 'shared/services'
+import {actions, configureStore} from 'store'
 import registerServiceWorker from './registerServiceWorker'
 
-ReactDOM.render(<App/>, document.getElementById('root'))
+const isProd = process.env.NODE_ENV === 'production'
+
+const store = configureStore(i18n, isProd)
+
+store.dispatch(actions.init())
+
+const render = AppComponent => {
+  ReactDOM.render(
+    <AppContainer>
+      <Provider {...{store}}>
+        <I18nextProvider {...{i18n}}>
+          <AppComponent/>
+        </I18nextProvider>
+      </Provider>
+    </AppContainer>,
+    document.getElementById('root')
+  )
+}
+
+render(App)
+
+if (module.hot) {
+  module.hot.accept('./app', () => { render(App) })
+}
+
 registerServiceWorker()
