@@ -21,6 +21,7 @@
     "emotion": "^8.0.12",
     "emotion-theming": "^8.0.12",
     "eslint": "^4.14.0",
+    "eslint-config-airbnb": "^16.1.0",
     "eslint-import-resolver-webpack": "^0.8.3",
     "eslint-loader": "^1.9.0",
     "eslint-plugin-babel": "^4.1.2",
