@@ -1,53 +1,24 @@
 import React, {Component} from 'react'
 import {Form, Col, Button, FormGroup, FormControl, ControlLabel, InputGroup} from 'react-bootstrap'
+import {ATTENDENCE_VALUES} from 'shared/constants'
 
 import SoldierNameInput from './SoldierNameInput'
 
-export const ATTENDENCE_VALUES = [
-  'ביחידה',
-  'מחוץ ליחידה אחר',
-  'מחוץ ליחידה בתפקיד',
-  'חופש',
-  'בהד1',
-  'חו"ל',
-  'יום ד\'',
-  'מיוחדת',
-  'חופשת מחלה',
-  'מחלת בן/בת זוג',
-  'מחלת ילד',
-  'קורס/הכשרה',
-]
+const Action = ({onClick, bsStyle, children}) => (
+  <InputGroup.Button>
+    <Button {...{onClick, bsStyle}}>
+      {children}
+    </Button>
+  </InputGroup.Button>
+)
 
 export default class SoldierListItem extends Component {
-  constructor(props) {
-    super(props)
-  
-    this.state = {
-      attendence: props.attendence || ATTENDENCE_VALUES[0],
-      isEditing: false,
-    }
-  }
-
-  componentWillMount() {
-    this._onAttendenceChange(this.state.attendence)
-  }
-
-  _onAttendenceChange(attendence) {
-    this.props.onAttendenceChange(attendence)
-  }
-
-  handleAttendenceSelectionChanged(e) {
-    const attendence = e.target.value
-    this.setState({attendence})
-    this._onAttendenceChange(attendence)
+  state = {
+    isEditing: false,
   }
 
   _onNameChange(name) {
     this.props.onNameChange(name)
-  }
-
-  handleDelete() {
-    this.props.onDelete()
   }
 
   _setEditingMode(isEditing) {
@@ -68,53 +39,29 @@ export default class SoldierListItem extends Component {
     this._onNameChange(name)
   }
 
-  renderAttendenceOptions = name => ATTENDENCE_VALUES.map(val => (
-    <option key={`${name}-attendence-${val}`} value={val}>{val}</option>
-  ))
-
-  renderDeleteButton() {
-    return (
-      <InputGroup.Button>
-        <Button
-          bsStyle="danger"
-          onClick={() => this.handleDelete()}
-        >
-          מחק
-        </Button>
-      </InputGroup.Button>
-    )
-  }
-
-  renderEditButton() {
-    return (
-      <InputGroup.Button>
-        <Button
-          bsStyle="info"
-          onClick={() => this.startEditingName()}
-        >
-          ערוך שם
-        </Button>
-      </InputGroup.Button>
-    )
-  }
-
   renderAttendenceSettings() {
-    const {name} = this.props
+    const {name, attendence, onAttendenceChange, onDelete} = this.props
     return (
       <Form horizontal>
         <FormGroup controlId="formControlsSelect">
           <Col xs={9} sm={10}>
             <InputGroup>
               <FormControl
-                onChange={e => this.handleAttendenceSelectionChanged(e)}
+                onChange={e => onAttendenceChange(e.target.value)}
                 componentClass="select"
                 placeholder="select"
-                value={this.state.attendence}
+                value={attendence}
               >
-                {this.renderAttendenceOptions(name)}
+                {ATTENDENCE_VALUES.map(value => (
+                  <option {...{value, key: value}}>{value}</option>
+                ))}
               </FormControl>
-              {this.renderEditButton()}
-              {this.renderDeleteButton()}
+              <Action bsStyle="info" onClick={() => this.startEditingName()}>
+                ערוך שם
+              </Action>
+              <Action bsStyle="danger" onClick={onDelete}>
+                מחק
+              </Action>
             </InputGroup>
           </Col>
           <Col componentClass={ControlLabel} xs={3} sm={2}>
