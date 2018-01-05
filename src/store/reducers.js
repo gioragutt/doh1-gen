@@ -11,7 +11,7 @@ const addItem = (state, {name, attendence = DEFAULT_ATTENDENCE} = {}) => {
     return state
   }
 
-  const hasSoldier = state.includes(item => nameId(item) === name)
+  const hasSoldier = state.find(item => nameId(item) === name)
   if (hasSoldier) {
     console.log('Already exists', {name})
     return state
