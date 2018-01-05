@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import styled from 'react-emotion'
-import {withProps} from 'recompose'
 
 import SoldierNameInput from './SoldierNameInput'
 import SoldierListItem from './SoldierListItem'
@@ -8,10 +7,10 @@ import AttendenceOutput from './AttendenceOutput'
 
 import SoldierStorage from '../utils/storage'
 
-const Root = withProps({dir: 'rtl'})(styled.div`
+const Root = styled.div`
   max-width: 660px;
   margin: auto;
-`)
+`
 
 const Title = styled.h1`
   text-align: center;
@@ -82,7 +81,7 @@ export default class App extends Component {
   render() {
     const {soldiers} = this.state
     return (
-      <Root>
+      <Root dir="rtl">
         <Title>מחולל דוח1</Title>
         <SoldierNameInput
           onSubmit={name => this.addSoldier(name)}
