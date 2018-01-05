@@ -26,7 +26,7 @@ const SoldiersListItem = styled.li`
   padding: 0;
 `
 
-const App = ({deleteSoldier, updateSoldier, addSoldier, soldiers}) => (
+const SoldiersPage = ({deleteSoldier, updateSoldier, addSoldier, soldiers}) => (
   <Root dir="rtl">
     <Title>מחולל דוח1</Title>
     <SoldierNameInput
@@ -58,4 +58,4 @@ const enhance = connect(
   }
 )
 
-export default enhance(App)
+export default enhance(SoldiersPage)
