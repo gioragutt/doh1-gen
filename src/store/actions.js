@@ -1,11 +1,9 @@
 import {makeActionCreator} from 'redux-toolbelt'
 
-const makeUpdatingActionCreator = makeActionCreator.withDefaults({
-  defaultMeta: {saveToStorage: true},
-})
+const soldiersAction = makeActionCreator.withDefaults({prefix: 'SOLDIERS/'})
 
 export const init = makeActionCreator('init')
-export const setSoldiers = makeActionCreator('setSoldiers')
-export const deleteSoldier = makeUpdatingActionCreator('deleteSoldier')
-export const updateSoldier = makeUpdatingActionCreator('updateSoldier')
-export const addSoldier = makeUpdatingActionCreator('addSoldier')
+
+export const deleteSoldier = soldiersAction('delete')
+export const updateSoldier = soldiersAction('update')
+export const addSoldier = soldiersAction('add')
