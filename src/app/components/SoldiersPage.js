@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import SoldierNameInput from './SoldierNameInput'
 import SoldierListItem from './SoldierListItem'
 import AttendenceOutput from './AttendenceOutput'
+import Notifications from './Notifications'
 
 import {actions} from 'store'
 
@@ -27,6 +28,7 @@ const SoldiersListItem = styled.li`
 
 const SoldiersPage = ({deleteSoldier, updateSoldier, addSoldier, soldiers}) => (
   <Root dir="rtl">
+    <Notifications/>
     <Title>מחולל דוח1</Title>
     <SoldierNameInput
       onSubmit={name => addSoldier({name})}
