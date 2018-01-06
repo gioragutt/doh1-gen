@@ -22,6 +22,12 @@ const persistedState = () => {
   return Array.isArray(state) ? {soldiers: state} : state
 }
 
+const saveStoreToStorage = store => () => {
+  const state = store.getState()
+  delete store.notifications
+  save(state)
+}
+
 export default function configureStore(i18n, isProduction) {
   const composeEnhancers = isProduction
     ? compose
@@ -37,7 +43,7 @@ export default function configureStore(i18n, isProduction) {
     composeEnhancers(applyMiddleware(epicMiddleware))
   )
 
-  store.subscribe(() => save(store.getState()))
+  store.subscribe(saveStoreToStorage(store))
 
   return store
 }
