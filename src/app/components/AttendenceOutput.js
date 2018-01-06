@@ -1,5 +1,6 @@
 import React from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
+
 import {Button, FormGroup, FormControl} from 'react-bootstrap'
 import {branch, renderComponent, mapProps, compose} from 'recompose'
 

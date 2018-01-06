@@ -4,6 +4,8 @@ import {I18nextProvider} from 'react-i18next'
 import {AppContainer} from 'react-hot-loader'
 import {Provider} from 'react-redux'
 import App from 'app'
+import {ThemeProvider} from 'emotion-theming'
+import {theme} from 'shared/style'
 import {i18n} from 'shared/services'
 import {actions, configureStore} from 'store'
 import registerServiceWorker from './registerServiceWorker'
@@ -18,9 +20,11 @@ const render = AppComponent => {
   ReactDOM.render(
     <AppContainer>
       <Provider {...{store}}>
-        <I18nextProvider {...{i18n}}>
-          <AppComponent/>
-        </I18nextProvider>
+        <ThemeProvider {...{theme}}>
+          <I18nextProvider {...{i18n}}>
+            <AppComponent/>
+          </I18nextProvider>
+        </ThemeProvider>
       </Provider>
     </AppContainer>,
     document.getElementById('root')

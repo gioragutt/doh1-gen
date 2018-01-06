@@ -1,8 +1,7 @@
 import React, {Component} from 'react'
 import {FormGroup, InputGroup, FormControl} from 'react-bootstrap'
 import {withState, branch, renderNothing} from 'recompose'
-import {Button} from 'shared/components'
-import {onValueChange} from 'shared/utils/forms'
+import {Button, Input} from 'shared/components'
 
 const OptionalButton = branch(
   ({text}) => !text,
@@ -37,12 +36,7 @@ class SoldierNameInput extends Component {
       <form onSubmit={this.submitIfValid}>
         <FormGroup controlId="formBasicText" validationState={this.getValidationState()}>
           <InputGroup>
-            <FormControl
-              type="text"
-              value={value}
-              placeholder="שם החייל"
-              onChange={onValueChange(setValue)}
-            />
+            <Input {...{placeholder: 'שם החייל', onChange: setValue, value}}/>
             <Button
               bsStyle={this._isValid() ? 'primary' : 'default'}
               onClick={this.handleClick}

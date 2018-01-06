@@ -9,7 +9,6 @@ import AttendenceOutput from './AttendenceOutput'
 import {actions} from 'store'
 
 const Root = styled.div`
-  max-width: 660px;
   margin: auto;
 `
 
