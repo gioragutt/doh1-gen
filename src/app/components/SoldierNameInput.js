@@ -1,94 +1,55 @@
 import React, {Component} from 'react'
-import {Button, FormGroup, InputGroup, FormControl} from 'react-bootstrap'
+import {FormGroup, InputGroup, FormControl} from 'react-bootstrap'
+import {withState, branch, renderNothing} from 'recompose'
+import {Button} from 'shared/components'
+import {onValueChange} from 'shared/utils/forms'
 
-const CancelButton = ({cancelButtonText, onCancel: onClick}) => (
-  <InputGroup.Button>
+const OptionalButton = branch(
+  ({text}) => !text,
+  renderNothing,
+  ({text, onClick}) => (
     <Button {...{onClick}}>
-      {cancelButtonText}
+      {text}
     </Button>
-  </InputGroup.Button>
-)
+  )
+)()
 
-
-export default class SoldierNameInput extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      value: props.initialValue || '',
+class SoldierNameInput extends Component {
+  _isValid = () => this.props.value.trim().length > 0
+  getValidationState = () => this._isValid() ? 'success' : 'error'
+  
+  submitIfValid = () => {
+    const {value, setValue, onSubmit} = this.props
+    if (this._isValid()) {
+      onSubmit(value.trim())
+      setValue('')
     }
   }
 
-  _isInputValueValid() {
-    return this.state.value.length > 0
-  }
-
-  getValidationState() {
-    return this._isInputValueValid() ? 'success' : 'error'
-  }
-
-  handleChange(e) {
-    const {value} = e.target
-    this.setState({value})
-  }
-
-  handleClick() {
-    this._validateInputAndRaiseAddEvent()
-  }
-
-  handleSubmit(e) {
+  handleSubmit = e => {
     e.preventDefault()
-    this._validateInputAndRaiseAddEvent()
-  }
-
-  _validateInputAndRaiseAddEvent() {
-    const {value} = this.state
-    if (value) {
-      this.props.onSubmit(value.trim())
-      this.setState({value: ''})
-    }
-  }
-
-  renderSubmitButton() {
-    const butttonStyle = this._isInputValueValid() ? 'primary' : 'default'
-    return (
-      <InputGroup.Button>
-        <Button
-          bsStyle={butttonStyle}
-          onClick={() => this.handleClick()}
-        >
-          {this.props.submitButtonText}
-        </Button>
-      </InputGroup.Button>
-    )
-  }
-
-  renderCancelButton() {
-    if (!this.props.cancelButtonText) {
-      return null
-    }
-
-    const {onCancel, cancelButtonText} = this.props
-    return (
-      <CancelButton {...{onCancel, cancelButtonText}}/>
-    )
+    this.submitIfValid()
   }
 
   render() {
+    const {setValue, onCancel, cancelButtonText, value, submitButtonText} = this.props
     return (
-      <form onSubmit={e => this.handleSubmit(e)}>
-        <FormGroup
-          controlId="formBasicText"
-          validationState={this.getValidationState()}
-        >
+      <form onSubmit={this.submitIfValid}>
+        <FormGroup controlId="formBasicText" validationState={this.getValidationState()}>
           <InputGroup>
             <FormControl
               type="text"
-              value={this.state.value}
+              value={value}
               placeholder="שם החייל"
-              onChange={e => this.handleChange(e)}
+              onChange={onValueChange(setValue)}
             />
-            {this.renderSubmitButton()}
-            {this.renderCancelButton()}
+            <Button
+              bsStyle={this._isValid() ? 'primary' : 'default'}
+              onClick={this.handleClick}
+            >
+              {submitButtonText}
+            </Button>
+            <OptionalButton {...{onClick: onCancel, text: cancelButtonText}}/>
             <FormControl.Feedback/>
           </InputGroup>
         </FormGroup>
@@ -96,3 +57,7 @@ export default class SoldierNameInput extends Component {
     )
   }
 }
+
+const enhance = withState('value', 'setValue', ({initialValue}) => initialValue || '')
+
+export default enhance(SoldierNameInput)
