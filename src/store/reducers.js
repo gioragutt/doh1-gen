@@ -8,7 +8,8 @@ const addItem = (state, {name, attendence = DEFAULT_ATTENDENCE} = {}) =>
   addItemByIdIfDoesntExist(state, {name, attendence}, ({name}) => name)
 
 export const soldiers = composeReducers(
+  makeReducer(actions.init, () => []),
   makeReducer(actions.deleteSoldier, (state, {payload}) => removeItem(state, payload)),
   makeReducer(actions.updateSoldier,(state, {payload: {index, ...update}}) => updateItem(state, index, update)),
-  makeReducer(actions.addSoldier, (state, {payload}) => addItem(state, payload))
+  makeReducer(actions.addSoldier, (state, {payload}) => addItem(state, payload)),
 )
