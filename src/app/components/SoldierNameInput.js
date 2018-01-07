@@ -33,13 +33,13 @@ class SoldierNameInput extends Component {
   render() {
     const {setValue, onCancel, cancelButtonText, value, submitButtonText} = this.props
     return (
-      <form onSubmit={this.submitIfValid}>
+      <form onSubmit={this.handleSubmit}>
         <FormGroup controlId="formBasicText" validationState={this.getValidationState()}>
           <InputGroup>
             <Input {...{placeholder: 'שם החייל', onChange: setValue, value}}/>
             <Button
               bsStyle={this._isValid() ? 'primary' : 'default'}
-              onClick={this.handleClick}
+              onClick={this.submitIfValid}
             >
               {submitButtonText}
             </Button>
