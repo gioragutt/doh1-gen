@@ -11,10 +11,12 @@ export const addItemByIdIfDoesntExist = (state, toAdd, idSelector = defaultIdSel
     return toAdd
   }
 
-  const id = idSelector(toAdd)
-  const exists = state.find(item => idSelector(item) === id)
-  
-  if (exists) {
+  toAdd = toAdd
+    .map(item => [idSelector(item), item])
+    .filter(([id]) => !state.find(item => idSelector(item) === id))
+    .map(([_, item]) => item)
+
+  if (toAdd.length === 0) {
     return state
   }
 
