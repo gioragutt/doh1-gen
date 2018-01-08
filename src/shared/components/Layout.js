@@ -14,8 +14,5 @@ export const Content = styled(ALayout.Content)`
 `
 
 export const Header = styled(ALayout.Header)`
-  background: white;
-  padding: 0
+  padding: 0;
 `
-
-export const Sider = styled(ALayout.Sider)``

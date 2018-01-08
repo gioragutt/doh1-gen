@@ -1,36 +1,41 @@
 import React from 'react'
+import styled from 'react-emotion'
 import {connect} from 'react-redux'
-import {withState, compose} from 'recompose'
-import {Menu, Icon} from 'antd'
+import {Menu, Icon as AIcon} from 'antd'
 
-import {Content, Sider, Layout} from 'shared/components/Layout'
+import {Header, Content, Layout} from 'shared/components/Layout'
 import {actions} from 'store'
+
+const Icon = styled(AIcon)`
+  margin: 0 !important;
+`
 
 const SETTING_MENU_ITEMS = [
   {title: 'הגדרות צוותים', type: 'setting', redirectTo: '/teams'},
   {title: 'ערכי דוח1', type: 'profile', redirectTo: '/settings'},
 ]
 
-const MenuTitle = ({type, title}) => (
+const MenuTitle = ({type}) => (
   <span>
     <Icon {...{type}}/>
-    <span>{title}</span>
+    {/* <span>{title}</span> */}
   </span>
 )
 
-const SiderMenu = ({onTeamClick, currentSidebarMenuItem, sidebarMenuClicked, teamNames}) => (
+const HeaderMenu = ({changeTeam, currentSidebarMenuItem, sidebarMenuClicked, teamNames}) => (
   <Menu
     onClick={({keyPath, item: {props: {redirectTo}}}) => {
       if (keyPath[1] === 'teams') {
         sidebarMenuClicked(keyPath)
-        onTeamClick(keyPath[0], redirectTo)
+        changeTeam(keyPath[0], {redirectTo})
       } else {
         sidebarMenuClicked(keyPath, {redirectTo})
       }
     }}
+    style={{lineHeight: '64px'}}
     theme="dark"
     defaultSelectedKeys={currentSidebarMenuItem || ['1']}
-    mode="inline"
+    mode="horizontal"
   >
     <Menu.SubMenu key="teams" title={<MenuTitle type="team" title="צוותים"/>}>
       {teamNames.map(t => <Menu.Item key={t} redirectTo={`/teams/${t}`}>{t}</Menu.Item>)}
@@ -38,15 +43,12 @@ const SiderMenu = ({onTeamClick, currentSidebarMenuItem, sidebarMenuClicked, tea
     {SETTING_MENU_ITEMS.map(({title, type, redirectTo}) => (
       <Menu.Item key={title} redirectTo={redirectTo}>
         <Icon {...{type}}/>
-        <span>{title}</span>
       </Menu.Item>
     ))}
   </Menu>
 )
 
 const Shell = ({
-  collapsed,
-  onCollapse,
   currentSidebarMenuItem,
   sidebarMenuClicked,
   teamNames,
@@ -54,42 +56,36 @@ const Shell = ({
   children,
 }) => (
   <Layout>
-    <Sider collapsible {...{collapsed, onCollapse: () => onCollapse(!collapsed)}}>
-      <SiderMenu
+    <Header>
+      <HeaderMenu
         {...{
-          onTeamClick: (team, redirectTo) => {
-            onCollapse(true)
-            changeTeam(team, {redirectTo})
-          },
+          changeTeam,
           currentSidebarMenuItem,
           sidebarMenuClicked,
           teamNames,
         }}
       />
-    </Sider>
+    </Header>
     <Layout>
-      <Content onClick={() => onCollapse(true)}>
+      <Content>
         {children}
       </Content>
     </Layout>
   </Layout>
 )
 
-const enhance = compose(
-  withState('collapsed', 'onCollapse', true),
-  connect(
-    (({
-      uiProps: {currentSidebarMenuItem},
-      soldiers: {teams},
-    }) => ({
-      currentSidebarMenuItem,
-      teamNames: Object.keys(teams),
-    })),
-    {
-      sidebarMenuClicked: actions.sidebarMenuClicked,
-      changeTeam: actions.changeTeam,
-    }
-  ),
+const enhance = connect(
+  (({
+    uiProps: {currentSidebarMenuItem},
+    soldiers: {teams},
+  }) => ({
+    currentSidebarMenuItem,
+    teamNames: Object.keys(teams),
+  })),
+  {
+    sidebarMenuClicked: actions.sidebarMenuClicked,
+    changeTeam: actions.changeTeam,
+  }
 )
 
 export default enhance(Shell)

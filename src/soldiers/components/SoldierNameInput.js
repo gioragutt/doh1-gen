@@ -1,57 +1,59 @@
-import React, {Component} from 'react'
-import {FormGroup, InputGroup, FormControl} from 'react-bootstrap'
-import {withState, branch, renderNothing} from 'recompose'
-import {Button, Input} from 'shared/components'
+import React from 'react'
+import styled from 'react-emotion'
+import {withState, branch, renderNothing, withHandlers, compose, mapProps} from 'recompose'
+import {Form, Input, Button} from 'antd'
+
+const StyledForm = styled(Form)`
+  .has-feedback .ant-input {
+    padding-right: 30px;
+  }
+`
 
 const OptionalButton = branch(
   ({text}) => !text,
   renderNothing,
   ({text, onClick}) => (
-    <Button {...{onClick}}>
-      {text}
-    </Button>
+    <Form.Item>
+      <Button type="primary" htmlType="submit" {...{onClick}}>
+        {text}
+      </Button>
+    </Form.Item>
   )
 )()
 
-class SoldierNameInput extends Component {
-  _isValid = () => this.props.value.trim().length > 0
-  getValidationState = () => this._isValid() ? 'success' : 'error'
-  
-  submitIfValid = () => {
-    const {value, setValue, onSubmit} = this.props
-    if (this._isValid()) {
-      onSubmit(value.trim())
-      setValue('')
-    }
-  }
+const SoldierNameInput = ({onChange, onCancel, cancelButtonText, value, submitButtonText, submit, isValid}) => (
+  <StyledForm
+    layout="inline"
+    onSubmit={e => {
+      e.preventDefault()
+      submit()
+    }}
+  >
+    <Form.Item hasFeedback {...{help: 'יש להכניס שם', validateStatus: isValid ? 'success' : 'error'}}>
+      <Input {...{value, placeholder: 'שם החייל', onChange}}/>
+    </Form.Item>
+    <Form.Item>
+      <Button type="primary" htmlType="submit">{submitButtonText}</Button>
+    </Form.Item>
+    <OptionalButton {...{onClick: onCancel, text: cancelButtonText}}/>
+  </StyledForm>
+)
 
-  handleSubmit = e => {
-    e.preventDefault()
-    this.submitIfValid()
-  }
-
-  render() {
-    const {setValue, onCancel, cancelButtonText, value, submitButtonText} = this.props
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <FormGroup controlId="formBasicText" validationState={this.getValidationState()}>
-          <InputGroup>
-            <Input {...{placeholder: 'שם החייל', onChange: setValue, value}}/>
-            <Button
-              bsStyle={this._isValid() ? 'primary' : 'default'}
-              onClick={this.submitIfValid}
-            >
-              {submitButtonText}
-            </Button>
-            <OptionalButton {...{onClick: onCancel, text: cancelButtonText}}/>
-            <FormControl.Feedback/>
-          </InputGroup>
-        </FormGroup>
-      </form>
-    )
-  }
-}
-
-const enhance = withState('value', 'setValue', ({initialValue}) => initialValue || '')
+const enhance = compose(
+  withState('value', 'setValue', ({initialValue}) => initialValue || ''),
+  mapProps(props => ({
+    ...props,
+    isValid: props.value.trim().length > 0,
+    onChange: e => e.target ? props.setValue(e.target.value) : props.setValue(e),
+  })),
+  withHandlers({
+    submit: ({isValid, onSubmit, value, onChange}) => () => {
+      if (isValid) {
+        onSubmit(value.trim())
+        onChange('')
+      }
+    },
+  }),
+)
 
 export default enhance(SoldierNameInput)
