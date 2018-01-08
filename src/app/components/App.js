@@ -19,6 +19,27 @@ const MenuTitle = ({type, title}) => (
   </span>
 )
 
+const closeIfTeamClicked = onTeamClick => args => {
+  console.log(args)
+  if (args.keyPath[1] === 'teams') {
+    onTeamClick()
+  }
+}
+
+const SiderMenu = ({onTeamClick}) => (
+  <Menu onClick={closeIfTeamClicked(onTeamClick)} theme="dark" defaultSelectedKeys={['1']} mode="inline">
+    <SubMenu key="teams" title={<MenuTitle type="team" title="צוותים"/>}>
+      {MenuData.teams.map(t => <Menu.Item key={t}>{t}</Menu.Item>)}
+    </SubMenu>
+    {MenuData.settings.map(({title, type}) => (
+      <Menu.Item key={title}>
+        <Icon {...{type}}/>
+        <span>{title}</span>
+      </Menu.Item>
+    ))}
+  </Menu>
+)
+
 const App = ({collapsed, onCollapse}) => (
   <Layout>
     <Sider
@@ -26,21 +47,11 @@ const App = ({collapsed, onCollapse}) => (
       collapsed={collapsed}
       onCollapse={() => onCollapse(!collapsed)}
     >
-      <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-        <SubMenu key="teams" title={<MenuTitle type="team" title="צוותים"/>}>
-          {MenuData.teams.map(t => <Menu.Item key={t}>{t}</Menu.Item>)}
-        </SubMenu>
-        {MenuData.settings.map(({title, type}) => (
-          <Menu.Item key={title}>
-            <Icon {...{type}}/>
-            <span>{title}</span>
-          </Menu.Item>
-        ))}
-      </Menu>
+      <SiderMenu onTeamClick={() => onCollapse(true)}/>
     </Sider>
     <Layout>
       <Header/>
-      <Content onClick={() => onCollapse(false)}>
+      <Content onClick={() => onCollapse(true)}>
         <Breadcrumb style={{margin: '16px 0'}}>
           <Breadcrumb.Item>User</Breadcrumb.Item>
           <Breadcrumb.Item>Bill</Breadcrumb.Item>
