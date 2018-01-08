@@ -1,5 +1,5 @@
 import {createStore, combineReducers, applyMiddleware, compose} from 'redux'
-// import {routerReducer as routing, routerMiddleware} from 'react-router-redux'
+import {routerReducer as routing, routerMiddleware} from 'react-router-redux'
 import {createEpicMiddleware, combineEpics} from 'redux-observable'
 import {reducer as notifications} from 'react-notification-system-redux'
 
@@ -10,7 +10,7 @@ import * as reducers from './reducers'
 
 const rootReducer = combineReducers({
   ...reducers,
-  // routing,
+  routing,
   notifications,
 })
 
@@ -29,22 +29,16 @@ const saveStoreToStorage = store => () => {
   save(state)
 }
 
-export default function configureStore(i18n, isProduction) {
-  const composeEnhancers = isProduction
-    ? compose
-    : window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+export default function configureStore(history, i18n, isProduction) {
+  const composeEnhancers = isProduction ? compose : window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+  const epicMiddleware = createEpicMiddleware(rootEpic, {dependencies: {i18n, history}})
   
-  const epicMiddleware = createEpicMiddleware(rootEpic, {
-    dependencies: {i18n},
-  })
-
   const store = createStore(
     rootReducer,
     persistedState(),
-    composeEnhancers(applyMiddleware(epicMiddleware))
+    composeEnhancers(applyMiddleware(routerMiddleware(history), epicMiddleware))
   )
 
   store.subscribe(saveStoreToStorage(store))
-
   return store
 }
