@@ -25,6 +25,7 @@ const persistedState = () => {
 const saveStoreToStorage = store => () => {
   const state = store.getState()
   delete store.notifications
+  delete store.uiProps
   save(state)
 }
 
