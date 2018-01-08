@@ -1,4 +1,5 @@
 import {injectGlobal} from 'emotion'
+import 'antd/dist/antd.css'
 
 const palette = {
   black: '#23303d',
@@ -32,10 +33,5 @@ injectGlobal`
   #root {
     margin: 0;
     padding: 0;
-  }
-  
-  html, body {
-    max-width: 660px;
-    margin: auto;
   }
 `
