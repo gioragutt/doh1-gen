@@ -1,1 +1,1 @@
-export {default} from './components/SoldiersPage'
+export {default} from './components/App'
