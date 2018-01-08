@@ -5,6 +5,7 @@ import {reducer as notifications} from 'react-notification-system-redux'
 
 import {save, load} from 'shared/utils/storage'
 
+import {defaultSoldiersState} from './util'
 import * as epics from './epics'
 import * as reducers from './reducers'
 
@@ -18,8 +19,7 @@ const rootEpic = combineEpics(...Object.values(epics))
 
 const persistedState = () => {
   const state = load()
-  // load old version of state
-  return Array.isArray(state) ? {soldiers: state} : state
+  return Array.isArray(state) ? {soldiers: defaultSoldiersState(state)} : state
 }
 
 const saveStoreToStorage = store => () => {

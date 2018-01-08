@@ -5,7 +5,6 @@ import {connect} from 'react-redux'
 import SoldierNameInput from './SoldierNameInput'
 import SoldierListItem from './SoldierListItem'
 import AttendenceOutput from './AttendenceOutput'
-import Notifications from './Notifications'
 
 import {actions} from 'store'
 
@@ -26,10 +25,9 @@ const SoldiersListItem = styled.li`
   padding: 0;
 `
 
-const SoldiersPage = ({deleteSoldier, updateSoldier, addSoldier, soldiers}) => (
+const SoldiersPage = ({selectedTeam, deleteSoldier, updateSoldier, addSoldier, soldiers}) => (
   <Root dir="rtl">
-    <Notifications/>
-    <Title>מחולל דוח1</Title>
+    <Title>{selectedTeam}</Title>
     <SoldierNameInput
       onSubmit={name => addSoldier({name})}
       submitButtonText={'הוסף חייל'}
@@ -51,7 +49,7 @@ const SoldiersPage = ({deleteSoldier, updateSoldier, addSoldier, soldiers}) => (
 )
 
 const enhance = connect(
-  ({soldiers}) => ({soldiers}),
+  ({soldiers: {selectedTeam, teams}}) => ({soldiers: teams[selectedTeam], selectedTeam}),
   {
     deleteSoldier: actions.deleteSoldier,
     updateSoldier: actions.updateSoldier,

@@ -1,4 +1,5 @@
 export const DEFAULT_ATTENDENCE = 'ביחידה'
+
 export const ATTENDENCE_VALUES = [
   DEFAULT_ATTENDENCE,
   'מחוץ ליחידה אחר',
