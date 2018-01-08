@@ -17,7 +17,7 @@ export const Footer = styled(AFooter)`
 `
 
 export const Content = styled(AContent)`
-  margin: 0 16px;
+  margin: 24px 16px;
 `
 
 export const Header = styled(AHeader)`
