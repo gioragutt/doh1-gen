@@ -13,3 +13,7 @@ export const soldiers = composeReducers(
   makeReducer(actions.updateSoldier,(state, {payload: {index, ...update}}) => updateItem(state, index, update)),
   makeReducer(actions.addSoldier, (state, {payload}) => addItem(state, payload)),
 )
+
+export const uiProps = composeReducers(
+  makeReducer(actions.sidebarMenuClicked, (state, {payload}) => ({currentSidebarMenuItem: payload})),
+)

@@ -1,16 +1,19 @@
 import React from 'react'
-import {withState} from 'recompose'
+import {connect} from 'react-redux'
+import {withState, compose} from 'recompose'
 import {Header, Content, Footer, Sider, Layout} from 'shared/components/Layout'
 import {Menu, Breadcrumb, Icon} from 'antd'
+
+import {actions} from 'store'
+
 const SubMenu = Menu.SubMenu
 
-const MenuData = {
-  teams: ['ליבה', 'הכשרות'],
-  settings: [
-    {title: 'ערכי דוח1', type: 'profile'},
-    {title: 'צוותים', type: 'setting'},
-  ],
-}
+const SETTING_MENU_ITEMS = [
+  {title: 'ערכי דוח1', type: 'profile'},
+  {title: 'צוותים', type: 'setting'},
+]
+
+const MOCK_TEAMS = ['ליבה', 'הכשרות']
 
 const MenuTitle = ({type, title}) => (
   <span>
@@ -19,19 +22,23 @@ const MenuTitle = ({type, title}) => (
   </span>
 )
 
-const closeIfTeamClicked = onTeamClick => args => {
-  console.log(args)
-  if (args.keyPath[1] === 'teams') {
-    onTeamClick()
-  }
-}
-
-const SiderMenu = ({onTeamClick}) => (
-  <Menu onClick={closeIfTeamClicked(onTeamClick)} theme="dark" defaultSelectedKeys={['1']} mode="inline">
+const SiderMenu = ({onTeamClick, currentSidebarMenuItem, sidebarMenuClicked}) => (
+  <Menu
+      onClick={({keyPath, ...p}) => {
+        console.log(p)
+        sidebarMenuClicked(keyPath)
+        if (keyPath[1] === 'teams') {
+          onTeamClick()
+        }
+      }}
+      theme="dark"
+      defaultSelectedKeys={currentSidebarMenuItem || ['1']}
+      mode="inline"
+    >
     <SubMenu key="teams" title={<MenuTitle type="team" title="צוותים"/>}>
-      {MenuData.teams.map(t => <Menu.Item key={t}>{t}</Menu.Item>)}
+      {MOCK_TEAMS.map(t => <Menu.Item key={t}>{t}</Menu.Item>)}
     </SubMenu>
-    {MenuData.settings.map(({title, type}) => (
+    {SETTING_MENU_ITEMS.map(({title, type}) => (
       <Menu.Item key={title}>
         <Icon {...{type}}/>
         <span>{title}</span>
@@ -40,14 +47,20 @@ const SiderMenu = ({onTeamClick}) => (
   </Menu>
 )
 
-const App = ({collapsed, onCollapse}) => (
+const App = ({collapsed, onCollapse, currentSidebarMenuItem, sidebarMenuClicked}) => (
   <Layout>
     <Sider
       collapsible
       collapsed={collapsed}
       onCollapse={() => onCollapse(!collapsed)}
     >
-      <SiderMenu onTeamClick={() => onCollapse(true)}/>
+      <SiderMenu
+        {...{
+          onTeamClick: () => onCollapse(true),
+          currentSidebarMenuItem,
+          sidebarMenuClicked,
+        }}
+      />
     </Sider>
     <Layout>
       <Header/>
@@ -67,6 +80,14 @@ const App = ({collapsed, onCollapse}) => (
   </Layout>
 )
 
-const enhance = withState('collapsed', 'onCollapse', true)
+const enhance = compose(
+  withState('collapsed', 'onCollapse', true),
+  connect(
+    (({uiProps: {currentSidebarMenuItem}}) => ({currentSidebarMenuItem})),
+    {
+      sidebarMenuClicked: actions.sidebarMenuClicked,
+    }
+  ),
+)
 
 export default enhance(App)
