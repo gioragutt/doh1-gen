@@ -20,6 +20,7 @@ const Title = styled.h1`
   text-align: center;
   background: ${({affixed}) => affixed ? '#f0f2f5' : 'none'};
   transition: all 0.5s ease;
+  padding-bottom: ${({affixed}) => affixed ? '8px' : 'inherit'};
 
   .title {
     margin-left: 8px;
@@ -45,7 +46,7 @@ const SoldiersPage = ({
   displayed,
 }) => (
   <Root dir="rtl">
-    <Affixed component={Title}>
+    <Affixed component={Title} offsetTop={64}>
       <span className="title">{selectedTeam}</span>
       <Switch
         checkedChildren="מוצג"

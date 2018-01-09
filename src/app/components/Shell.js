@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import {Menu, Icon as AIcon} from 'antd'
 
 import {Header, Content, Layout} from 'shared/components/Layout'
+import Affixed from 'shared/components/Affixed'
 import {actions} from 'store'
 
 const Icon = styled(AIcon)`
@@ -62,7 +63,7 @@ const Shell = ({
   children,
 }) => (
   <Layout>
-    <Header>
+    <Affixed component={Header}>
       <HeaderMenu
         {...{
           changeTeam,
@@ -71,7 +72,7 @@ const Shell = ({
           teamNames,
         }}
       />
-    </Header>
+    </Affixed>
     <Layout>
       <Content>
         {children}

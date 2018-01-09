@@ -10,6 +10,8 @@ import SoldierNameInput from './SoldierNameInput'
 const AttendenceValues = ATTENDENCE_VALUES.map(v => ({label: v, value: v}))
 
 const FormItem = styled(Form.Item)`
+  margin-bottom: 16px;
+
   .label-wrapper {
     width: 100%;
     padding: 0 0 8px;
