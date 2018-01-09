@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'react-emotion'
 import {connect} from 'react-redux'
-import {Divider, Switch} from 'antd'
+import {Divider} from 'antd'
 
 import {actions} from 'store'
-import {Affixed, NameInput} from 'shared/components'
+import {Affixed, NameInput, TeamDisplayed} from 'shared/components'
 
 import SoldierListItem from './SoldierListItem'
 import AttendenceOutput from './AttendenceOutput'
@@ -38,19 +38,13 @@ const SoldiersPage = ({
   deleteSoldier,
   updateSoldier,
   addSoldier,
-  team: {members, displayed, name},
-  changeTeamDisplayed,
+  team: {members, name},
   teamId,
 }) => (
   <Root dir="rtl">
     <Affixed component={Title}>
       <span className="title">{name}</span>
-      <Switch
-        checkedChildren="מוצג"
-        unCheckedChildren="לא מוצג"
-        checked={displayed}
-        onChange={e => changeTeamDisplayed({teamId, displayed: e})}
-      />
+      <TeamDisplayed {...{teamId}}/>
     </Affixed>
     <NameInput
       onSubmit={name => addSoldier({teamId, name})}
@@ -82,7 +76,6 @@ const enhance = connect(
     deleteSoldier: actions.deleteSoldier,
     updateSoldier: actions.updateSoldier,
     addSoldier: actions.addSoldier,
-    changeTeamDisplayed: actions.changeTeamDisplayed,
   }
 )
 

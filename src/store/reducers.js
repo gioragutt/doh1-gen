@@ -30,23 +30,26 @@ const updateTeamWith = (state, teamId, updateFunc) => {
 }
 
 const makeTeamUpdateReducer = (actionCreator, updateFunc) =>
+  makeReducer(actionCreator, (state, action) =>
+    updateTeamWith(state, action.payload.teamId, team => updateFunc(team, action)))
+
+const makeTeamMembersUpdateReducer = (actionCreator, updateFunc) =>
   makeReducer(actionCreator, (state, action) => updateTeamWith(state, action.payload.teamId,
     team => updateObjectProperties(team, {members: updateFunc(team.members, action)})))
 
 export const soldiers = composeReducers(
   initialReducerState(defaultSoldiersState()),
   
-  makeTeamUpdateReducer(actions.deleteSoldier, (state, {payload: {index}}) => removeItem(state, index)),
-  makeTeamUpdateReducer(actions.updateSoldier, (state, {payload: {index, ...update}}) =>
+  makeTeamMembersUpdateReducer(actions.deleteSoldier, (state, {payload: {index}}) => removeItem(state, index)),
+  makeTeamMembersUpdateReducer(actions.updateSoldier, (state, {payload: {index, ...update}}) =>
     updateItem(state, index, update)),
-  makeTeamUpdateReducer(actions.addSoldier, (state, {payload: {name}}) => addItem(state, {name})),
+  makeTeamMembersUpdateReducer(actions.addSoldier, (state, {payload: {name}}) => addItem(state, {name})),
 
   makeReducer(actions.changeTeam, (state, {payload: selectedTeam}) => updateObjectProperties(state, {selectedTeam})),
-  makeReducer(actions.changeTeamDisplayed, (state, {payload: {displayed, teamId}}) =>
-    updateTeamWith(state, teamId, team => updateObjectProperties(team, {displayed}))),
+  makeTeamUpdateReducer(actions.changeTeamDisplayed, (team, {payload: {displayed}}) =>
+    updateObjectProperties(team, {displayed})),
   makeReducer(actions.deleteTeam, (state, {payload}) => updateTeamWith(state, payload, () => null)),
-  makeReducer(actions.renameTeam, (state, {payload: {teamId, name}}) =>
-    updateTeamWith(state, teamId, team => updateObjectProperties(team, {name}))),
+  makeTeamUpdateReducer(actions.renameTeam, (team, {payload: {name}}) => updateObjectProperties(team, {name})),
 )
 
 export const uiProps = composeReducers(
