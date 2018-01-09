@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'react-emotion'
 import {connect} from 'react-redux'
 
-import {Divider} from 'antd'
+import {Divider, Switch} from 'antd'
 
 import SoldierNameInput from './SoldierNameInput'
 import SoldierListItem from './SoldierListItem'
@@ -20,6 +20,10 @@ const Title = styled.h1`
   text-align: center;
   background: ${({affixed}) => affixed ? '#f0f2f5' : 'none'};
   transition: all 0.5s ease;
+
+  .title {
+    margin-left: 8px;
+  }
 `
 
 const List = styled.ul`
@@ -31,10 +35,24 @@ const ListItemWrapper = styled.li`
   padding: 0;
 `
 
-const SoldiersPage = ({selectedTeam, deleteSoldier, updateSoldier, addSoldier, soldiers}) => (
+const SoldiersPage = ({
+  selectedTeam,
+  deleteSoldier,
+  updateSoldier,
+  addSoldier,
+  soldiers,
+  changeTeamDisplayed,
+  displayed,
+}) => (
   <Root dir="rtl">
     <Affixed component={Title}>
-      {selectedTeam}
+      <span className="title">{selectedTeam}</span>
+      <Switch
+        checkedChildren="מוצג"
+        unCheckedChildren="לא מוצג"
+        checked={displayed}
+        onChange={changeTeamDisplayed}
+      />
     </Affixed>
     <SoldierNameInput
       onSubmit={name => addSoldier({name})}
@@ -58,11 +76,16 @@ const SoldiersPage = ({selectedTeam, deleteSoldier, updateSoldier, addSoldier, s
 )
 
 const enhance = connect(
-  ({soldiers: {selectedTeam, teams}}) => ({soldiers: teams[selectedTeam], selectedTeam}),
+  ({soldiers: {selectedTeam, teams}}) => ({
+    soldiers: teams[selectedTeam].members,
+    displayed: teams[selectedTeam].displayed,
+    selectedTeam,
+  }),
   {
     deleteSoldier: actions.deleteSoldier,
     updateSoldier: actions.updateSoldier,
     addSoldier: actions.addSoldier,
+    changeTeamDisplayed: actions.changeTeamDisplayed,
   }
 )
 
