@@ -10,28 +10,17 @@ import SoldierNameInput from './SoldierNameInput'
 const AttendenceValues = ATTENDENCE_VALUES.map(v => ({label: v, value: v}))
 
 const FormItem = styled(Form.Item)`
-  .ant-form-item-label {
+  .label-wrapper {
     width: 100%;
-    text-align: right !important;
-    
-    label {
-      width: 100%;
-  
-      &:after {
-        content: none;
-      }
-  
-      .label-wrapper {
-        width: 100%;
-  
-        span {
-          line-height: 32px;
-        }
+    padding: 0 0 8px;
 
-        button {
-          margin-right: 10px;
-        }
-      }
+    span {
+      line-height: 32px;
+      font-weight: 700;
+    }
+
+    button {
+      margin-right: 10px;
     }
   }
 `
@@ -48,7 +37,8 @@ const Label = ({name, onDelete, setEditing}) => (
 
 const EditAttendence = ({name, attendence, onAttendenceChange, onDelete, setEditing}) => (
   <Form layout="horizontal" dir="rtl">
-    <FormItem label={<Label {...{name, onDelete, setEditing}}/>}>
+    <FormItem>
+      <Label {...{name, onDelete, setEditing}}/>
       <Select size="large" onChange={onAttendenceChange} value={attendence}>
         {AttendenceValues.map(({value, label}) => (
           <Select.Option {...{key: value, value}}>{label}</Select.Option>
