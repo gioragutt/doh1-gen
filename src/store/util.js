@@ -1,15 +1,20 @@
-export const DEFAULT_TEAM_NAME = 'צוות'
+import uuid from 'uuid'
 
-export const defaultSoldiersState = (list = []) => ({
-  selectedTeam: DEFAULT_TEAM_NAME,
-  teams: {
-    [DEFAULT_TEAM_NAME]: {
-      displayed: true,
-      members: list,
+export const defaultSoldiersState = (list = []) => {
+  const selectedTeam = uuid()
+  return {
+    selectedTeam,
+    teams: {
+      [selectedTeam]: {
+        name: 'צוות',
+        displayed: true,
+        members: list,
+      },
+      [uuid()]: {
+        name: 'test',
+        displayed: false,
+        members: [],
+      },
     },
-    test: {
-      displayed: false,
-      members: [],
-    },
-  },
-})
+  }
+}

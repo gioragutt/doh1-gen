@@ -15,7 +15,10 @@ const OptionalButton = ({icon, onClick, ...props}) => icon ? (
   <Button type="primary" htmlType="submit" shape="circle" {...{...props, onClick, icon}}/>
 ) : null
 
-const SoldierNameInput = ({onChange, onCancel, cancelButtonIcon, value, submitButtonIcon, submit, isValid}) => (
+const NameInput = ({
+  onCancel, cancelButtonIcon, submitButtonIcon,
+  onChange, submit, value, isValid,
+}) => (
   <StyledForm
     layout="inline"
     onSubmit={e => {
@@ -52,4 +55,4 @@ const enhance = compose(
   }),
 )
 
-export default enhance(SoldierNameInput)
+export default enhance(NameInput)

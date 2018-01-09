@@ -12,26 +12,41 @@ const addItem = (state, {name, attendence = DEFAULT_ATTENDENCE} = {}) =>
 
 const initialReducerState = defaultState => makeReducer(actions.init, state => state || defaultState)
 
-const updateTeamWith = (state, updateFunc) => {
-  const selectedTeam = state.teams[state.selectedTeam]
+const teamsUpdate = (teams, teamId, newTeam) => {
+    if (newTeam) {
+      return updateObjectProperties(teams, {[teamId]: newTeam})
+    }
+
+    const newTeams = {...teams}
+    delete newTeams[teamId]
+    return newTeams
+}
+
+const updateTeamWith = (state, teamId, updateFunc) => {
+  const selectedTeam = state.teams[teamId]
   const newTeam = updateFunc(selectedTeam)
-  const teams = updateObjectProperties(state.teams, {[state.selectedTeam]: newTeam})
+  const teams = teamsUpdate(state.teams, teamId, newTeam)
   return updateObjectProperties(state, {teams})
 }
 
 const makeTeamUpdateReducer = (actionCreator, updateFunc) =>
-  makeReducer(actionCreator, (state, action) => updateTeamWith(state,
+  makeReducer(actionCreator, (state, action) => updateTeamWith(state, action.payload.teamId,
     team => updateObjectProperties(team, {members: updateFunc(team.members, action)})))
 
 export const soldiers = composeReducers(
   initialReducerState(defaultSoldiersState()),
-  makeReducer(actions.changeTeam, (state, {payload: selectedTeam}) => updateObjectProperties(state, {selectedTeam})),
-  makeReducer(actions.changeTeamDisplayed, (state, {payload: displayed}) =>
-    updateTeamWith(state, team => updateObjectProperties(team, {displayed}))),
-  makeTeamUpdateReducer(actions.deleteSoldier, (state, {payload}) => removeItem(state, payload)),
-  makeTeamUpdateReducer(actions.updateSoldier,(state, {payload: {index, ...update}}) =>
+  
+  makeTeamUpdateReducer(actions.deleteSoldier, (state, {payload: {index}}) => removeItem(state, index)),
+  makeTeamUpdateReducer(actions.updateSoldier, (state, {payload: {index, ...update}}) =>
     updateItem(state, index, update)),
-  makeTeamUpdateReducer(actions.addSoldier, (state, {payload}) => addItem(state, payload)),
+  makeTeamUpdateReducer(actions.addSoldier, (state, {payload: {name}}) => addItem(state, {name})),
+
+  makeReducer(actions.changeTeam, (state, {payload: selectedTeam}) => updateObjectProperties(state, {selectedTeam})),
+  makeReducer(actions.changeTeamDisplayed, (state, {payload: {displayed, teamId}}) =>
+    updateTeamWith(state, teamId, team => updateObjectProperties(team, {displayed}))),
+  makeReducer(actions.deleteTeam, (state, {payload}) => updateTeamWith(state, payload, () => null)),
+  makeReducer(actions.renameTeam, (state, {payload: {teamId, name}}) =>
+    updateTeamWith(state, teamId, team => updateObjectProperties(team, {name}))),
 )
 
 export const uiProps = composeReducers(

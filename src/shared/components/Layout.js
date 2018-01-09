@@ -1,9 +1,7 @@
 import styled from 'react-emotion'
 import {Layout as ALayout} from 'antd'
 
-export const Layout = styled(ALayout)`
-  min-height: 100vh;
-`
+export const Layout = styled(ALayout)``
 
 export const Footer = styled(ALayout.Footer)`
   text-align: center;

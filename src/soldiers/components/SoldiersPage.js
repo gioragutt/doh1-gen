@@ -1,15 +1,13 @@
 import React from 'react'
 import styled from 'react-emotion'
 import {connect} from 'react-redux'
-
 import {Divider, Switch} from 'antd'
 
-import SoldierNameInput from './SoldierNameInput'
+import {actions} from 'store'
+import {Affixed, NameInput} from 'shared/components'
+
 import SoldierListItem from './SoldierListItem'
 import AttendenceOutput from './AttendenceOutput'
-
-import {actions} from 'store'
-import {Affixed} from 'shared/components'
 
 const Root = styled.div`
   margin: auto;
@@ -37,50 +35,48 @@ const ListItemWrapper = styled.li`
 `
 
 const SoldiersPage = ({
-  selectedTeam,
   deleteSoldier,
   updateSoldier,
   addSoldier,
-  soldiers,
+  team: {members, displayed, name},
   changeTeamDisplayed,
-  displayed,
+  teamId,
 }) => (
   <Root dir="rtl">
-    <Affixed component={Title} offsetTop={64}>
-      <span className="title">{selectedTeam}</span>
+    <Affixed component={Title}>
+      <span className="title">{name}</span>
       <Switch
         checkedChildren="מוצג"
         unCheckedChildren="לא מוצג"
         checked={displayed}
-        onChange={changeTeamDisplayed}
+        onChange={e => changeTeamDisplayed({teamId, displayed: e})}
       />
     </Affixed>
-    <SoldierNameInput
-      onSubmit={name => addSoldier({name})}
+    <NameInput
+      onSubmit={name => addSoldier({teamId, name})}
       submitButtonIcon="user-add"
     />
     <Divider style={{margin: '12px 0'}}/>
     <List>
-      {soldiers.map((soldier, index) => (
-        <ListItemWrapper key={soldier.name}>
+      {members.map((member, index) => (
+        <ListItemWrapper key={member.name}>
           <SoldierListItem
-            {...soldier}
-            onAttendenceChange={attendence => updateSoldier({index, attendence})}
-            onDelete={() => deleteSoldier(index)}
-            onNameChange={name => updateSoldier({index, name})}
+            {...member}
+            onAttendenceChange={attendence => updateSoldier({teamId, index, attendence})}
+            onDelete={() => deleteSoldier({teamId, index})}
+            onNameChange={name => updateSoldier({teamId, index, name})}
           />
         </ListItemWrapper>
       ))}
     </List>
-    <AttendenceOutput {...{soldiers}}/>
+    <AttendenceOutput {...{soldiers: members}}/>
   </Root>
 )
 
 const enhance = connect(
   ({soldiers: {selectedTeam, teams}}) => ({
-    soldiers: teams[selectedTeam].members,
-    displayed: teams[selectedTeam].displayed,
-    selectedTeam,
+    team: teams[selectedTeam],
+    teamId: selectedTeam,
   }),
   {
     deleteSoldier: actions.deleteSoldier,

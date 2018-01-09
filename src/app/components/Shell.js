@@ -4,7 +4,6 @@ import {connect} from 'react-redux'
 import {Menu, Icon as AIcon} from 'antd'
 
 import {Header, Content, Layout} from 'shared/components/Layout'
-import Affixed from 'shared/components/Affixed'
 import {actions} from 'store'
 
 const Icon = styled(AIcon)`
@@ -29,7 +28,7 @@ const menuStyle = {
   justifyContent: 'center',
 }
 
-const HeaderMenu = ({changeTeam, currentSidebarMenuItem, sidebarMenuClicked, teamNames}) => (
+const HeaderMenu = ({changeTeam, currentSidebarMenuItem, sidebarMenuClicked, teams}) => (
   <Menu
     onClick={({keyPath, item: {props: {redirectTo}}}) => {
       if (keyPath[1] === 'teams') {
@@ -45,7 +44,7 @@ const HeaderMenu = ({changeTeam, currentSidebarMenuItem, sidebarMenuClicked, tea
     mode="horizontal"
   >
     <Menu.SubMenu key="teams" title={<MenuTitle type="team" title="צוותים"/>}>
-      {teamNames.map(t => <Menu.Item key={t} redirectTo={`/teams/${t}`}>{t}</Menu.Item>)}
+      {teams.map(({name, key}) => <Menu.Item {...{key, redirectTo: `/teams/${key}`}}>{name}</Menu.Item>)}
     </Menu.SubMenu>
     {SETTING_MENU_ITEMS.map(({title, type, redirectTo}) => (
       <Menu.Item key={title} redirectTo={redirectTo}>
@@ -58,21 +57,21 @@ const HeaderMenu = ({changeTeam, currentSidebarMenuItem, sidebarMenuClicked, tea
 const Shell = ({
   currentSidebarMenuItem,
   sidebarMenuClicked,
-  teamNames,
+  teams,
   changeTeam,
   children,
 }) => (
   <Layout>
-    <Affixed component={Header}>
+    <Header>
       <HeaderMenu
         {...{
           changeTeam,
           currentSidebarMenuItem,
           sidebarMenuClicked,
-          teamNames,
+          teams,
         }}
       />
-    </Affixed>
+    </Header>
     <Layout>
       <Content>
         {children}
@@ -87,7 +86,7 @@ const enhance = connect(
     soldiers: {teams},
   }) => ({
     currentSidebarMenuItem,
-    teamNames: Object.keys(teams),
+    teams: Object.keys(teams).map(key => ({name: teams[key].name, key})),
   })),
   {
     sidebarMenuClicked: actions.sidebarMenuClicked,

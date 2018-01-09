@@ -4,7 +4,7 @@ import {Affix} from 'antd'
 
 const Affixed = (({affixed, setAffixed, offsetTop, children, component: Component, ...props}) => (
   <Affix {...{onChange: setAffixed, offsetTop}}>
-    <Component {...{affixed: affixed ? true : undefined, ...props}}>{children}</Component>
+    <Component {...{affixed: affixed ? 'true' : undefined, ...props}}>{children}</Component>
   </Affix>
 ))
 

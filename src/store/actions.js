@@ -7,8 +7,13 @@ const soldiersAction = makeActionCreator.withDefaults({prefix: 'SOLDIERS/'})
 export const deleteSoldier = soldiersAction('delete')
 export const updateSoldier = soldiersAction('update')
 export const addSoldier = soldiersAction('add')
-export const changeTeam = soldiersAction('changeTeam')
-export const changeTeamDisplayed = soldiersAction('changeTeamDisplayed')
+
+const teamsAction = makeActionCreator.withDefaults({prefix: 'TEAMS/'})
+
+export const changeTeam = teamsAction('changeTeam')
+export const deleteTeam = teamsAction('deleteTeam')
+export const renameTeam = teamsAction('renameTeam')
+export const changeTeamDisplayed = teamsAction('changeTeamDisplayed')
 
 const uiAction = makeActionCreator.withDefaults({prefix: 'UI/'})
 

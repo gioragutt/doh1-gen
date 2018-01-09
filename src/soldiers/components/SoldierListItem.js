@@ -4,8 +4,8 @@ import React from 'react'
 import styled from 'react-emotion'
 import {branch, withState, compose, renderComponent} from 'recompose'
 import {Form, Select, Button, Icon, Popconfirm} from 'antd'
+import {NameInput} from 'shared/components'
 import {ATTENDENCE_VALUES} from 'shared/constants'
-import SoldierNameInput from './SoldierNameInput'
 
 const AttendenceValues = ATTENDENCE_VALUES.map(v => ({label: v, value: v}))
 
@@ -51,7 +51,7 @@ const EditAttendence = ({name, attendence, onAttendenceChange, onDelete, setEdit
 )
 
 const EditName = ({name: initialValue, onNameChange: onSubmit, setEditing}) => (
-  <SoldierNameInput
+  <NameInput
     {...{
       initialValue,
       onSubmit,
