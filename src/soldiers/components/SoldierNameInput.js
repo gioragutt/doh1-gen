@@ -1,27 +1,21 @@
 import React from 'react'
 import styled from 'react-emotion'
-import {withState, branch, renderNothing, withHandlers, compose, mapProps} from 'recompose'
+import {withState, withHandlers, compose, mapProps} from 'recompose'
 import {Form, Input, Button} from 'antd'
 
 const StyledForm = styled(Form)`
   .has-feedback .ant-input {
     padding-right: 30px;
   }
+
+  text-align: center;
 `
 
-const OptionalButton = branch(
-  ({text}) => !text,
-  renderNothing,
-  ({text, onClick}) => (
-    <Form.Item>
-      <Button type="primary" htmlType="submit" {...{onClick}}>
-        {text}
-      </Button>
-    </Form.Item>
-  )
-)()
+const OptionalButton = ({icon, onClick, ...props}) => icon ? (
+  <Button type="primary" htmlType="submit" shape="circle" {...{...props, onClick, icon}}/>
+) : null
 
-const SoldierNameInput = ({onChange, onCancel, cancelButtonText, value, submitButtonText, submit, isValid}) => (
+const SoldierNameInput = ({onChange, onCancel, cancelButtonIcon, value, submitButtonIcon, submit, isValid}) => (
   <StyledForm
     layout="inline"
     onSubmit={e => {
@@ -29,13 +23,15 @@ const SoldierNameInput = ({onChange, onCancel, cancelButtonText, value, submitBu
       submit()
     }}
   >
-    <Form.Item hasFeedback {...{help: 'יש להכניס שם', validateStatus: isValid ? 'success' : 'error'}}>
+    <Form.Item hasFeedback {...{help: isValid || 'יש להכניס שם', validateStatus: isValid ? 'success' : 'error'}}>
       <Input {...{value, placeholder: 'שם החייל', onChange}}/>
     </Form.Item>
     <Form.Item>
-      <Button type="primary" htmlType="submit">{submitButtonText}</Button>
+      <Button.Group dir="ltr">
+        <OptionalButton {...{onClick: onCancel, icon: cancelButtonIcon, type: 'danger'}}/>
+        <Button shape="circle" type="primary" htmlType="submit" icon={submitButtonIcon} disabled={!isValid}/>
+      </Button.Group>
     </Form.Item>
-    <OptionalButton {...{onClick: onCancel, text: cancelButtonText}}/>
   </StyledForm>
 )
 

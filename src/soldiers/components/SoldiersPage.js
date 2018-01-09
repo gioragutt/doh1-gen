@@ -1,6 +1,9 @@
 import React from 'react'
 import styled from 'react-emotion'
 import {connect} from 'react-redux'
+import {withState} from 'recompose'
+
+import {Divider, Affix} from 'antd'
 
 import SoldierNameInput from './SoldierNameInput'
 import SoldierListItem from './SoldierListItem'
@@ -10,40 +13,50 @@ import {actions} from 'store'
 
 const Root = styled.div`
   margin: auto;
+  max-width: 660px;
 `
 
 const Title = styled.h1`
   text-align: center;
+  background: ${({affixed}) => affixed ? '#f0f2f5' : 'none'};
+  transition: all 0.5s ease;
 `
 
-const SoldiersList = styled.ul`
+const List = styled.ul`
   list-style-type: none;
   padding: 0;
 `
 
-const SoldiersListItem = styled.li`
+const ListItemWrapper = styled.li`
   padding: 0;
 `
 
+const AffixedTitle = withState('affixed', 'setAffixed', false)(({affixed, setAffixed, children}) => (
+  <Affix onChange={setAffixed}>
+    <Title {...{affixed}}>{children}</Title>
+  </Affix>
+))
+
 const SoldiersPage = ({selectedTeam, deleteSoldier, updateSoldier, addSoldier, soldiers}) => (
   <Root dir="rtl">
-    <Title>{selectedTeam}</Title>
+    <AffixedTitle>{selectedTeam}</AffixedTitle>
     <SoldierNameInput
       onSubmit={name => addSoldier({name})}
-      submitButtonText={'הוסף חייל'}
+      submitButtonIcon="user-add"
     />
-    <SoldiersList>
+    <Divider style={{margin: '12px 0'}}/>
+    <List>
       {soldiers.map((soldier, index) => (
-        <SoldiersListItem key={soldier.name}>
+        <ListItemWrapper key={soldier.name}>
           <SoldierListItem
             {...soldier}
             onAttendenceChange={attendence => updateSoldier({index, attendence})}
             onDelete={() => deleteSoldier(index)}
             onNameChange={name => updateSoldier({index, name})}
           />
-        </SoldiersListItem>
+        </ListItemWrapper>
       ))}
-    </SoldiersList>
+    </List>
     <AttendenceOutput {...{soldiers}}/>
   </Root>
 )
