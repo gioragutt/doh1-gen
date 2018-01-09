@@ -1,15 +1,15 @@
 import React from 'react'
 import styled from 'react-emotion'
 import {connect} from 'react-redux'
-import {withState} from 'recompose'
 
-import {Divider, Affix} from 'antd'
+import {Divider} from 'antd'
 
 import SoldierNameInput from './SoldierNameInput'
 import SoldierListItem from './SoldierListItem'
 import AttendenceOutput from './AttendenceOutput'
 
 import {actions} from 'store'
+import {Affixed} from 'shared/components'
 
 const Root = styled.div`
   margin: auto;
@@ -31,15 +31,11 @@ const ListItemWrapper = styled.li`
   padding: 0;
 `
 
-const AffixedTitle = withState('affixed', 'setAffixed', false)(({affixed, setAffixed, children}) => (
-  <Affix onChange={setAffixed}>
-    <Title {...{affixed}}>{children}</Title>
-  </Affix>
-))
-
 const SoldiersPage = ({selectedTeam, deleteSoldier, updateSoldier, addSoldier, soldiers}) => (
   <Root dir="rtl">
-    <AffixedTitle>{selectedTeam}</AffixedTitle>
+    <Affixed component={Title}>
+      {selectedTeam}
+    </Affixed>
     <SoldierNameInput
       onSubmit={name => addSoldier({name})}
       submitButtonIcon="user-add"
