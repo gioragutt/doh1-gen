@@ -13,7 +13,9 @@ const Divider = styled(ADivider)`
 
 const TeamCardRoot = styled(Card)`
   text-align: right;
+  margin: auto;
   margin-bottom: 16px;
+  max-width: 660px;
 `
 
 const TeamNameTitle = styled.div`
