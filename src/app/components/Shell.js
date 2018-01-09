@@ -22,6 +22,12 @@ const MenuTitle = ({type}) => (
   </span>
 )
 
+const menuStyle = {
+  lineHeight: '64px',
+  display: 'flex',
+  justifyContent: 'center',
+}
+
 const HeaderMenu = ({changeTeam, currentSidebarMenuItem, sidebarMenuClicked, teamNames}) => (
   <Menu
     onClick={({keyPath, item: {props: {redirectTo}}}) => {
@@ -32,7 +38,7 @@ const HeaderMenu = ({changeTeam, currentSidebarMenuItem, sidebarMenuClicked, tea
         sidebarMenuClicked(keyPath, {redirectTo})
       }
     }}
-    style={{lineHeight: '64px'}}
+    style={menuStyle}
     theme="dark"
     defaultSelectedKeys={currentSidebarMenuItem || ['1']}
     mode="horizontal"
