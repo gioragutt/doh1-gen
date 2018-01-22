@@ -10,11 +10,6 @@ export const defaultSoldiersState = (list = []) => {
         displayed: true,
         members: list,
       },
-      [uuid()]: {
-        name: 'test',
-        displayed: false,
-        members: [],
-      },
     },
   }
 }
