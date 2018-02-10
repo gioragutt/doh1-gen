@@ -10,6 +10,7 @@ export const addSoldier = soldiersAction('add')
 
 const teamsAction = makeActionCreator.withDefaults({prefix: 'TEAMS/'})
 
+export const addTeam = teamsAction('addTeam')
 export const changeTeam = teamsAction('changeTeam')
 export const deleteTeam = teamsAction('deleteTeam')
 export const renameTeam = teamsAction('renameTeam')
