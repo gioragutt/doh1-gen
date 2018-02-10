@@ -22,7 +22,7 @@ const TeamPageRoot = styled.div`
 
 const TeamsPage = ({teams, deleteTeam, addTeam}) => (
   <TeamPageRoot>
-    <Button className="new-team" size="large" icon="add" type="primary" onClick={addTeam}>New Team</Button>
+    <Button className="new-team" size="large" icon="add" type="primary" onClick={addTeam}>הוסף צוות</Button>
     {Object.keys(teams)
       .map(teamId => ({key: teamId, teamId, deleteTeam, ...teams[teamId]}))
       .map(props => <TeamCard {...props}/>)}
