@@ -18,21 +18,21 @@ const LabelText = styled.span`
   font-weight: 700;
 `
 
-const LabelButton = styled(Button)`
-  margin-right: 10px;
-`
-
 const LabelRoot = styled.div`
   width: 100%;
   padding: 0 0 8px;
+
+  button {
+    margin-right: 10px;
+  }
 `
 
 const Label = ({name, onDelete, setEditing}) => (
   <LabelRoot>
     <LabelText>{name}</LabelText>
-    <LabelButton shape="circle" icon="edit" type="primary" onClick={() => setEditing(true)}/>
+    <Button shape="circle" icon="edit" type="primary" onClick={() => setEditing(true)}/>
     <Popconfirm title="אתה בטוח שתרצה להמשיך?" onConfirm={onDelete} okText="המשך" okType="danger" cancelText="בטל">
-      <LabelButton shape="circle" icon="delete" type="danger"/>
+      <Button shape="circle" icon="delete" type="danger"/>
     </Popconfirm>
   </LabelRoot>
 )
