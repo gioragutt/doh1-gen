@@ -33,6 +33,7 @@
     "history": "^4.7.2",
     "i18next": "^10.2.2",
     "immutability-helper": "^2.6.2",
+    "lodash": "^4.17.5",
     "moment": "^2.20.1",
     "numeral": "^2.0.6",
     "react": "^16.2.0",

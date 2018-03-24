@@ -1,5 +1,6 @@
 import {composeReducers, makeReducer} from 'redux-toolbelt'
 import {removeItem, updateItem, updateObjectProperties} from 'redux-toolbelt-immutable-helpers'
+import {uniq} from 'lodash'
 
 import {defaultSoldiersState, addItem, updateTeamWith, newTeam} from './util'
 import * as actions from './actions'
@@ -37,4 +38,15 @@ export const uiProps = composeReducers(
   initialReducerState({}),
   makeReducer(actions.sidebarMenuClicked, (state, {payload: currentSidebarMenuItem}) =>
     updateObjectProperties(state, {currentSidebarMenuItem})),
+)
+
+const updateRecentAttendences = (attendence, previous) =>
+  uniq([attendence, ...previous]).slice(0, 5)
+
+export const recentlyUsedAttendances = composeReducers(
+  initialReducerState([]),
+  makeReducer(
+    actions.updateSoldier,
+    (state, {payload: {attendence}}) => updateRecentAttendences(attendence, state),
+  ),
 )
